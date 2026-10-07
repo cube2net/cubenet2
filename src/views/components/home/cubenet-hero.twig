@@ -1,0 +1,52 @@
+{#
+| Optional component data:
+| eyebrow, title, highlight, description, image, image_alt,
+| primary_label, primary_link, secondary_label, secondary_link
+#}
+{% set hero = component|default({}) %}
+{% set hero_image = hero.image|default('images/cubenet/network-rack.jpg'|asset) %}
+<section
+  component-id="{{ componentId|default('cubenet-hero') }}"
+  class="cubenet-hero"
+  aria-labelledby="cubenet-hero-title"
+  data-testid="cubenet-home-hero">
+  <div class="container cubenet-hero__inner">
+    <div class="cubenet-hero__copy">
+      <p class="cubenet-hero__eyebrow">{{ hero.eyebrow|default('حلول تقنية للمساحات التي تعمل') }}</p>
+      <h2 id="cubenet-hero-title" class="cubenet-hero__title">
+        {{ hero.title|default('بنية تقنية') }}
+        {% if hero.highlight|default('موثوقة لكل يوم') %}
+          <span>{{ hero.highlight|default('موثوقة لكل يوم') }}</span>
+        {% endif %}
+      </h2>
+      <p class="cubenet-hero__description">
+        {{ hero.description|default('شبكات، أنظمة مراقبة، وخدمات سحابية مصممة لتبقى أعمالك متصلة وآمنة.') }}
+      </p>
+      <div class="cubenet-hero__actions">
+        <a class="cubenet-hero__button cubenet-hero__button--primary"
+           href="{{ hero.primary_link|default(store.url ~ '/products') }}">
+          {{ hero.primary_label|default('تصفّح المتجر') }}
+          <svg class="cubenet-hero__arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="cubenet-hero__button cubenet-hero__button--secondary"
+           href="{{ hero.secondary_link|default('https://cubenet.cc/services') }}"
+           target="_blank" rel="noopener noreferrer">
+          {{ hero.secondary_label|default('اكتشف خدماتنا') }}
+        </a>
+      </div>
+      <div class="cubenet-hero__rule">{{ hero.note|default('اتصال ثابت. حماية واعية. إدارة أبسط.') }}</div>
+    </div>
+
+    <div class="cubenet-hero__visual" aria-label="{{ hero.image_alt|default('فني يجهز بنية شبكة احترافية') }}">
+      <img class="cubenet-hero__image"
+           src="{{ hero_image }}"
+           alt="{{ hero.image_alt|default('فني يجهز بنية شبكة احترافية') }}"
+           fetchpriority="high">
+      <span class="cubenet-hero__grid" aria-hidden="true"></span>
+      <span class="cubenet-hero__index" aria-hidden="true">CUBENET / 01</span>
+      <span class="cubenet-hero__visual-label">{{ hero.visual_label|default('اتصال يبدأ من الأساس') }}</span>
+    </div>
+  </div>
+</section>
