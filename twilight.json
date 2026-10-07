@@ -291,7 +291,7 @@
             },
             "icon": "sicon-image",
             "path": "home.cubenet-hero",
-            "image": "images/cubenet/network-rack.jpg",
+            "image": "https://raw.githubusercontent.com/cube2net/cubenet2/main/public/images/cubenet/network-rack.jpg",
             "is_default": true,
             "fields": [
                 {
