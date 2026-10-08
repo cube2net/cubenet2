@@ -1,0 +1,29 @@
+{# Cubenet services band. Fields: eyebrow, title, highlight, description #}
+{% set c = component|default({}) %}
+<section component-id="{{ componentId|default('cubenet-services') }}" class="cn-services" data-testid="cubenet-services">
+  <div class="container">
+    <div class="cn-services__head">
+      <span class="cn-eyebrow">{{ c.eyebrow|default('خدماتنا') }}</span>
+      <h2 class="cn-services__title">{{ c.title|default('شبكة تعمل') }} <span>{{ c.highlight|default('ودعم مستمر.') }}</span></h2>
+      <p class="cn-services__desc">{{ c.description|default('نبني البنية التقنية التي تجعل منشأتك أكثر اتصالاً، أكثر أماناً، وأسهل في الإدارة.') }}</p>
+    </div>
+    <div class="cn-services__grid">
+      <a class="cn-service" href="{{ store.url }}/products">
+        <img class="cn-service__img" loading="lazy" src="{{ 'images/cubenet/security-installation.jpg'|asset }}" alt="كاميرات مراقبة">
+        <div class="cn-service__body"><span class="cn-service__no">01</span><h3 class="cn-service__name">كاميرات مراقبة</h3><p class="cn-service__text">تسجيل وأرشفة مركزية بصلاحيات واضحة.</p></div>
+      </a>
+      <a class="cn-service" href="{{ store.url }}/products">
+        <img class="cn-service__img" loading="lazy" src="{{ 'images/cubenet/wireless-access-point.jpg'|asset }}" alt="شبكات وواي فاي">
+        <div class="cn-service__body"><span class="cn-service__no">02</span><h3 class="cn-service__name">شبكات وواي فاي</h3><p class="cn-service__text">اتصال بلا نقاط عمياء وتوزيع حمل مدروس.</p></div>
+      </a>
+      <a class="cn-service" href="{{ store.url }}/products">
+        <img class="cn-service__img" loading="lazy" src="{{ 'images/cubenet/network-rack.jpg'|asset }}" alt="تركيب وتأسيس">
+        <div class="cn-service__body"><span class="cn-service__no">03</span><h3 class="cn-service__name">تركيب وتأسيس</h3><p class="cn-service__text">تمديد مرتب يسهل صيانته، واختبار وتسليم.</p></div>
+      </a>
+      <a class="cn-service" href="{{ store.url }}/products">
+        <img class="cn-service__img" loading="lazy" src="{{ 'images/cubenet/network-management.jpg'|asset }}" alt="إدارة شبكات سحابية">
+        <div class="cn-service__body"><span class="cn-service__no">04</span><h3 class="cn-service__name">إدارة شبكات سحابية</h3><p class="cn-service__text">إدارة من أي مكان، تنبيهات فورية ودعم عن بعد.</p></div>
+      </a>
+    </div>
+  </div>
+</section>
