@@ -158,3 +158,10 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--cn-slate); outl
   .cn-services { padding: 48px 0; }
   .cn-cta__box { padding: 28px 22px; }
 }
+
+// ---------- footer (force dark in light/dark footer modes) ----------
+body .store-footer, body.footer-is-light .store-footer { background: var(--cn-ink) !important; color: var(--cn-sand) !important; }
+body .store-footer__inner, body.footer-is-light .store-footer .store-footer__inner { background: var(--cn-ink) !important; border-color: rgba(219, 205, 184, .2) !important; }
+body .store-footer .copyright-text p, body .store-footer .copyright-text { color: var(--cn-sand) !important; }
+body .store-footer .social-link { border-color: rgba(219, 205, 184, .35) !important; color: var(--cn-paper) !important; }
+body .store-footer .contact-social { border-color: rgba(219, 205, 184, .2) !important; }
