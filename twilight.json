@@ -924,7 +924,7 @@
                 {
                     "type": "string",
                     "icon": "sicon-image",
-                    "value": "https://cdn.salla.sa/form-builder/D7bG3pgSit43TheOejBOZV7LIfG1y1Cj0hWLmgIh.jpg",
+                    "value": "https://raw.githubusercontent.com/cube2net/cubenet2/main/public/images/cubenet/network-bg.svg",
                     "label": "صورة الخلفية",
                     "id": "background",
                     "format": "image",
