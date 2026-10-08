@@ -1,0 +1,16 @@
+{# Cubenet CTA band. Fields: title, description, primary_label, primary_link, secondary_label, secondary_link #}
+{% set c = component|default({}) %}
+<section component-id="{{ componentId|default('cubenet-cta') }}" class="cn-cta" data-testid="cubenet-cta">
+  <div class="container">
+    <div class="cn-cta__box">
+      <div>
+        <h2 class="cn-cta__title">{{ c.title|default('اطلب دراسة ميدانية') }}</h2>
+        <p class="cn-cta__text">{{ c.description|default('ناقش احتياجك الأمني والشبكي مع فريقنا، ونبدأ من الواقع.') }}</p>
+      </div>
+      <div class="cn-cta__actions">
+        <a class="cn-btn cn-btn--sand" href="{{ c.primary_link|default('https://cubenet.cc') }}" target="_blank" rel="noopener noreferrer">{{ c.primary_label|default('راسلنا الآن') }}</a>
+        <a class="cn-btn cn-btn--line" href="{{ c.secondary_link|default(store.url ~ '/products') }}">{{ c.secondary_label|default('تصفح متجرنا') }}</a>
+      </div>
+    </div>
+  </div>
+</section>
