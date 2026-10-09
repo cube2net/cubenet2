@@ -1,6 +1,27 @@
 // Shared helpers for the lesson pages and the slide presenter.
 // Content text is always inserted as text nodes; only built-in illustrations use markup.
 
+// Text between backticks (e.g. `=B2*C2`) is a formula: keep it left-to-right
+// inside Arabic sentences so symbols and numbers are not reordered.
+function richText(value) {
+  const str = String(value);
+  if (!str.includes('`')) return document.createTextNode(str);
+  const frag = document.createDocumentFragment();
+  str.split('`').forEach((part, i) => {
+    if (!part) return;
+    if (i % 2) {
+      const formula = document.createElement('bdi');
+      formula.dir = 'ltr';
+      formula.className = 'formula';
+      formula.textContent = part;
+      frag.append(formula);
+    } else {
+      frag.append(part);
+    }
+  });
+  return frag;
+}
+
 function el(tag, attrs = {}, children = []) {
   const node = document.createElement(tag);
   for (const [key, value] of Object.entries(attrs)) {
@@ -11,7 +32,7 @@ function el(tag, attrs = {}, children = []) {
   }
   for (const child of [].concat(children)) {
     if (child == null || child === false) continue;
-    node.append(child instanceof Node ? child : document.createTextNode(child));
+    node.append(child instanceof Node ? child : richText(child));
   }
   return node;
 }

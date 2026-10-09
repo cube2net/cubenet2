@@ -3,21 +3,59 @@
   "grade": "الصف السادس الابتدائي",
   "curriculum": "المنهج السعودي",
   "year": "1447هـ",
-  "note": "عناوين الوحدات مأخوذة من مصادر غير رسمية، ويجب مطابقتها مع كتاب الطالب ومنصة مدرستي قبل الاستخدام. الدروس غير المؤكدة لم تُضف بعد.",
+  "note": "الوحدات والدروس مأخوذة من مصادر تعليمية غير رسمية، والمحتوى مسودات صيغت من المفاهيم العامة لكل درس. طابقها مع كتاب الطالب ومنصة مدرستي قبل استخدامها مع الطلاب.",
   "units": [
     {
-      "id": "t1-u1",
-      "term": 1,
-      "number": 1,
-      "title": "التصميم ثلاثي الأبعاد",
+      "id": "t1-u1", "term": 1, "number": 1, "title": "التصميم ثلاثي الأبعاد",
       "lessons": [
         { "id": "t1-u1-l1", "title": "مقدمة إلى النمذجة ثلاثية الأبعاد", "status": "draft", "slides": true },
-        { "id": "t1-u1-l2", "title": "معالجة الأشكال ثلاثية الأبعاد", "status": "pending" }
+        { "id": "t1-u1-l2", "title": "معالجة الأشكال ثلاثية الأبعاد", "status": "draft", "slides": true }
       ]
     },
-    { "id": "t2-u1", "term": 2, "number": 1, "title": "التصميم المتقدم للمستندات", "lessons": [] },
-    { "id": "t2-u2", "term": 2, "number": 2, "title": "تصميم المواقع الإلكترونية", "lessons": [] },
-    { "id": "t2-u3", "term": 2, "number": 3, "title": "تصميم ألعاب الحاسب", "lessons": [] },
-    { "id": "t2-u4", "term": 2, "number": 4, "title": "المستشعرات في علم الروبوت", "lessons": [] }
+    {
+      "id": "t1-u2", "term": 1, "number": 2, "title": "جداول البيانات",
+      "lessons": [
+        { "id": "t1-u2-l1", "title": "تنفيذ العمليات الحسابية", "status": "draft", "slides": true },
+        { "id": "t1-u2-l2", "title": "المخططات البيانية", "status": "draft", "slides": true }
+      ]
+    },
+    {
+      "id": "t1-u3", "term": 1, "number": 3, "title": "قواعد البيانات",
+      "lessons": [
+        { "id": "t1-u3-l1", "title": "مقدمة عن قواعد البيانات", "status": "draft", "slides": true },
+        { "id": "t1-u3-l2", "title": "إنشاء قاعدة بيانات", "status": "draft", "slides": true },
+        { "id": "t1-u3-l3", "title": "الفرز والتصفية", "status": "draft", "slides": true }
+      ]
+    },
+    {
+      "id": "t2-u1", "term": 2, "number": 1, "title": "التصميم المتقدم للمستندات",
+      "lessons": [
+        { "id": "t2-u1-l1", "title": "إنشاء الجداول وتنسيقها", "status": "draft", "slides": true },
+        { "id": "t2-u1-l2", "title": "تحرير الجداول", "status": "draft", "slides": true }
+      ]
+    },
+    {
+      "id": "t2-u2", "term": 2, "number": 2, "title": "تصميم المواقع الإلكترونية",
+      "lessons": [
+        { "id": "t2-u2-l1", "title": "تصميم صفحة إلكترونية", "status": "draft", "slides": true },
+        { "id": "t2-u2-l2", "title": "إضافة الصفحات", "status": "draft", "slides": true, "unconfirmed": true },
+        { "id": "t2-u2-l3", "title": "نشر الموقع الإلكتروني", "status": "draft", "slides": true }
+      ]
+    },
+    {
+      "id": "t2-u3", "term": 2, "number": 3, "title": "تصميم ألعاب الحاسب",
+      "lessons": [
+        { "id": "t2-u3-l1", "title": "تخطيط وتصميم ألعاب الحاسب", "status": "draft", "slides": true },
+        { "id": "t2-u3-l2", "title": "برمجة ألعاب جهاز الحاسب", "status": "draft", "slides": true }
+      ]
+    },
+    {
+      "id": "t2-u4", "term": 2, "number": 4, "title": "المستشعرات في علم الروبوت",
+      "lessons": [
+        { "id": "t2-u4-l1", "title": "مستشعرات الروبوت", "status": "draft", "slides": true },
+        { "id": "t2-u4-l2", "title": "اتخاذ القرارات", "status": "draft", "slides": true },
+        { "id": "t2-u4-l3", "title": "إنشاء الخرائط", "status": "draft", "slides": true }
+      ]
+    }
   ]
 }

@@ -488,3 +488,6 @@ a.lesson-title:hover { color: var(--brand); }
   .worksheet { border: 0; padding: 0; }
   .answer-line, .ws-fields i { border-bottom-color: #000; }
 }
+
+/* Formulas written as `...` in lesson content */
+.formula { unicode-bidi: isolate; direction: ltr; font-weight: 600; white-space: nowrap; }

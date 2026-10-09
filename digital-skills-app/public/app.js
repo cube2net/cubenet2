@@ -21,6 +21,7 @@ function lessonRow(lesson, j) {
       ? el('span', { class: 'lesson-title' }, lesson.title)
       : el('a', { class: 'lesson-title', href: lessonUrl(lesson.id) }, lesson.title),
     statusChip(status),
+    lesson.unconfirmed ? el('span', { class: 'chip chip-pending', title: 'العنوان غير مؤكد في المصادر المتاحة' }, 'عنوان غير مؤكد') : null,
     lesson.slides && !pending
       ? el('a', { class: 'btn btn-small btn-soft', href: presentUrl(lesson.id) }, 'العرض')
       : null,
