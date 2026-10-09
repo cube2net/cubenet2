@@ -293,6 +293,7 @@ h1, h2, h3 { line-height: 1.35; }
 }
 .lesson-title { flex: 1; min-width: 0; color: var(--ink); font-weight: 600; text-decoration: none; }
 a.lesson-title:hover { color: var(--brand); }
+.lesson-pages { flex: none; color: var(--muted); font-size: .85em; font-variant-numeric: tabular-nums; }
 .is-pending .lesson-title { color: var(--muted); font-weight: 500; }
 
 .footer { color: var(--muted); font-size: 0.88rem; padding-block: 24px 40px; border-top: 1px solid var(--line); }
