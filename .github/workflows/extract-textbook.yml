@@ -19,11 +19,19 @@ jobs:
       - uses: actions/checkout@v4
       - run: pip install pymupdf pillow
       - name: Download and extract
+        env:
+          UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36
         run: |
           mkdir -p work out
           for t in 1 2; do
             url="https://iencontent.ien.edu.sa/Books/1448-GE-PE-K06-SM${t}-mcomp.pdf"
-            if curl -fL --retry 3 -o work/t$t.pdf "$url"; then
+            {
+              echo "== $url"
+              getent hosts iencontent.ien.edu.sa || echo "dns failed"
+              curl -sS -o /dev/null -m 60 -w "plain: %{http_code} %{size_download}\n" "$url" 2>&1 || true
+              curl -sS -I -m 60 -A "$UA" -H "Referer: https://ien.edu.sa/" "$url" 2>&1 | head -20 || true
+            } >> out/diagnostics.txt
+            if curl -fL --retry 3 -m 900 -A "$UA" -H "Referer: https://ien.edu.sa/" -o work/t$t.pdf "$url" 2>>out/diagnostics.txt; then
               ls -la work/t$t.pdf
               python .github/scripts/extract_book.py work/t$t.pdf out/t$t
             else
