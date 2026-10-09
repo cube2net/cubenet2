@@ -1,0 +1,105 @@
+# تطبيق المهارات الرقمية - الصف السادس الابتدائي
+
+تطبيق ويب عربي يعرض دروس المادة مقسّمة حسب الوحدات والدروس. كل درس يحتوي على:
+
+- **ملخص الدرس**
+- **شرح الدرس** مع نصوص وصور توضيحية
+- **ورقة عمل** قابلة للطباعة
+- **أسئلة للطلاب** (اختيار من متعدد وأسئلة مقالية) مع خيار لإظهار إجابات المعلم
+
+يعمل التطبيق داخل Docker على جهاز Proxmox المنزلي، ويُنشر على الإنترنت عبر **Cloudflare Tunnel** دون فتح أي منفذ في الراوتر.
+
+## هيكل المشروع
+
+```
+server.js                 خادم Express (واجهات API وملفات الواجهة)
+public/                   صفحات الواجهة (الفهرس، صفحة الدرس، التنسيق)
+content/curriculum.json   الوحدات والدروس (الهيكل العام)
+content/lessons/<id>.json محتوى كل درس: الملخص والشرح وورقة العمل والأسئلة
+content/media/            الصور المستخدمة في الشرح
+docker-compose.yml        التطبيق + نفق Cloudflare
+```
+
+## إضافة أو تعديل درس
+
+1. أضف الدرس في `content/curriculum.json` داخل الوحدة المناسبة:
+   ```json
+   { "id": "u1-l2", "title": "عنوان الدرس" }
+   ```
+2. أنشئ `content/lessons/u1-l2.json` بالبنية التالية:
+   ```json
+   {
+     "id": "u1-l2",
+     "unit": "عنوان الوحدة",
+     "title": "عنوان الدرس",
+     "summary": "ملخص قصير",
+     "explanation": [
+       { "type": "text", "text": "فقرة شرح" },
+       { "type": "image", "src": "/media/اسم-الصورة.png", "alt": "وصف الصورة", "caption": "تعليق" }
+     ],
+     "worksheet": { "title": "ورقة عمل", "name_line": true, "tasks": ["سؤال 1", "سؤال 2"] },
+     "questions": [
+       { "type": "mcq", "q": "سؤال", "options": ["أ", "ب", "ج"], "answer": 1 },
+       { "type": "essay", "q": "سؤال مقالي", "answer": "إجابة نموذجية" }
+     ]
+   }
+   ```
+   `answer` في أسئلة الاختيار هو رقم الخيار الصحيح بدءًا من `0`.
+3. ضع الصور في `content/media/`.
+
+المجلد `content/` مُركَّب داخل الحاوية كقراءة فقط، فيكفي إعادة تحميل الصفحة بعد التعديل دون إعادة بناء الصورة.
+
+## التشغيل المحلي للاختبار
+
+```bash
+npm install
+npm start          # http://localhost:3000
+```
+
+## النشر على Proxmox عبر Docker
+
+### 1. تجهيز الجهاز
+أنشئ VM أو LXC على Proxmox (Ubuntu/Debian) وثبّت Docker وDocker Compose، ثم انسخ المجلد:
+
+```bash
+git clone https://github.com/cube2net/cubenet2.git
+cd cubenet2/digital-skills-app
+```
+
+### 2. إنشاء نفق Cloudflare
+1. ادخل إلى **Cloudflare Zero Trust** (`one.dash.cloudflare.com`).
+2. اذهب إلى **Networks > Tunnels > Create a tunnel**، واختر **Cloudflared**.
+3. أعطِ النفق اسمًا مثل `digital-skills`.
+4. انسخ قيمة `TUNNEL_TOKEN` من أمر التثبيت الذي يعرضه Cloudflare.
+5. في تبويب **Public Hostname** أضف:
+   - **Subdomain:** `skills` (أو ما تريد)
+   - **Domain:** نطاقك المسجّل في Cloudflare
+   - **Service:** `HTTP` و **URL:** `app:3000`
+
+   ملاحظة: الاسم `app` هو اسم الخدمة داخل docker-compose، ويعمل لأن النفق والتطبيق في الشبكة نفسها.
+
+### 3. التشغيل
+```bash
+cp .env.example .env
+nano .env                    # ضع TUNNEL_TOKEN الحقيقي
+docker compose up -d --build
+docker compose logs -f       # تأكد من ظهور "listening" واتصال النفق
+```
+
+الموقع يصبح متاحًا على `https://skills.نطاقك.com`. يمكن التحقق من التطبيق محليًا عبر `http://<عنوان-الجهاز>:3000/health`.
+
+### 4. التحديث
+```bash
+git pull
+docker compose up -d --build
+```
+
+## الأمان
+
+- لا تُفتح أي منافذ من الراوتر إلى الإنترنت؛ الاتصال يبدأ من الجهاز نحو Cloudflare.
+- ينبغي إضافة **Cloudflare Access** (سياسة حماية بالبريد) إذا أردت أن يدخل الطلاب بحساب معيّن، فالتطبيق الحالي عام للقراءة.
+- ملف `.env` مستثنى من Git، ولا تشاركه.
+
+## ملاحظة عن المحتوى
+
+الوحدة والدرس الموجودان حاليًا **تجريبيان**. يجب استبدال عناوين الوحدات والدروس ومحتواها بما هو موجود في كتاب الطالب الرسمي للعام 2026 قبل استخدام التطبيق مع الطلاب.

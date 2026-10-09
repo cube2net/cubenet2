@@ -1,0 +1,17 @@
+{
+  "name": "digital-skills-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Arabic web app for grade 6 digital skills lessons (summary, explanation, worksheet, questions)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check public/app.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
