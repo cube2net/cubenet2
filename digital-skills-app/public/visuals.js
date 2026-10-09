@@ -487,6 +487,23 @@
         + text(111, 190, 'السجلات والحقول', { size: 19, weight: 700 }) + text(111, 216, 'صفوف وأعمدة', { size: 14, weight: 500, fill: C.muted }));
     },
 
+    'data-kinds'() {
+      const cards = [
+        ['البيانات العددية', 'أرقام يمكن قياسها', ['50', '6.25', '-10'], C.right],
+        ['البيانات الأبجدية', 'حروف وفراغات', ['أحمد', 'الرياض', 'أحمر'], C.amber],
+        ['الأبجدية العددية', 'حروف وأرقام ورموز', ['A380', '08:30 م', '#10'], C.blue],
+      ];
+      const xs = [530, 320, 110];
+      return svg(640, 300, 'أنواع البيانات', cards.map(([title, sub, ex, color], i) => {
+        const x = xs[i];
+        return `<rect x="${x - 98}" y="14" width="196" height="272" rx="18" fill="${C.paper}" stroke="${C.line}" stroke-width="2"/>`
+          + `<rect x="${x - 98}" y="14" width="196" height="10" rx="5" fill="${color}"/>`
+          + text(x, 62, title, { size: 19, weight: 700 }) + text(x, 88, sub, { size: 14, weight: 500, fill: C.muted })
+          + ex.map((v, k) => `<rect x="${x - 70}" y="${110 + k * 54}" width="140" height="40" rx="10" fill="${C.soft}"/>`
+            + text(x, 137 + k * 54, v, { size: 18, weight: 700, fill: color, ltr: /^[\x00-\x7F ]+$/.test(v) })).join('');
+      }).join(''));
+    },
+
     'database-table'() {
       const rows = [['رقم الطالب', 'الاسم', 'الصف', 'العمر'], ['1', 'سعد', 'السادس', '11'], ['2', 'ريم', 'السادس', '12'], ['3', 'خالد', 'الخامس', '10'], ['4', 'نورة', 'السادس', '11']];
       return svg(640, 300, 'جدول قاعدة بيانات يوضح الحقل والسجل',
