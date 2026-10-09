@@ -1,0 +1,42 @@
+# Temporary: the Claude session cannot reach iencontent.ien.edu.sa, so this job
+# downloads the grade 6 digital skills textbook, extracts text and images,
+# and pushes them to the book-extract-1448 branch. Remove after use.
+name: Extract textbook (temporary)
+
+on:
+  push:
+    branches: [claude/digital-skills-app-ms4pld]
+    paths: ['.github/workflows/extract-textbook.yml', '.github/scripts/extract_book.py']
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install pymupdf pillow
+      - name: Download and extract
+        run: |
+          mkdir -p work out
+          for t in 1 2; do
+            url="https://iencontent.ien.edu.sa/Books/1448-GE-PE-K06-SM${t}-mcomp.pdf"
+            if curl -fL --retry 3 -o work/t$t.pdf "$url"; then
+              ls -la work/t$t.pdf
+              python .github/scripts/extract_book.py work/t$t.pdf out/t$t
+            else
+              echo "not available: $url" | tee out/t$t-missing.txt
+            fi
+          done
+          du -sh out/* || true
+      - name: Push results to temporary branch
+        run: |
+          cd out
+          git init -q -b book-extract-1448
+          git config user.name github-actions
+          git config user.email github-actions@users.noreply.github.com
+          git add -A
+          git commit -qm "Extracted textbook pages (temporary)"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" book-extract-1448
