@@ -116,6 +116,7 @@ async function renderLesson() {
   drawQuestions();
 
   container.replaceChildren(
+    lesson.note ? el('p', { class: 'note' }, lesson.note) : null,
     el('header', { class: 'lesson-head' }, [
       el('p', { class: 'muted' }, lesson.unit),
       el('h1', {}, lesson.title),
