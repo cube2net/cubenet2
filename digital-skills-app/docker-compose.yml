@@ -1,0 +1,20 @@
+services:
+  app:
+    build: .
+    image: digital-skills-app:latest
+    restart: unless-stopped
+    ports:
+      # Host port is configurable (APP_PORT in .env); the app listens on 3000 inside the container
+      - "${APP_PORT:-3000}:3000"
+    volumes:
+      # Lesson content can be edited on the host without rebuilding the image
+      - ./content:/app/content:ro
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    depends_on:
+      - app

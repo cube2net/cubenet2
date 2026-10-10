@@ -1,0 +1,262 @@
+{
+  "subject": "المهارات الرقمية",
+  "grade": "الصف الرابع الابتدائي",
+  "curriculum": "المنهج السعودي",
+  "year": "1448هـ",
+  "note": "الوحدات والدروس مطابقة لكتاب الطالب «المهارات الرقمية» للصف الرابع الابتدائي طبعة 1448هـ، والصور العملية مأخوذة من الكتاب نفسه. راجع المحتوى قبل استخدامه مع الطلاب.",
+  "units": [
+    {
+      "id": "g4-t1-u1",
+      "term": 1,
+      "number": 1,
+      "title": "تعلم الأساسيات",
+      "lessons": [
+        {
+          "id": "g4-t1-u1-l1",
+          "title": "الحاسب",
+          "pages": "14–19",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t1-u1-l2",
+          "title": "سطح المكتب",
+          "pages": "20–32",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t1-u1-l3",
+          "title": "إعدادات جهاز الحاسب",
+          "pages": "33–38",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g4-t1-u2",
+      "term": 1,
+      "number": 2,
+      "title": "العمل على النص",
+      "lessons": [
+        {
+          "id": "g4-t1-u2-l1",
+          "title": "لوحة المفاتيح",
+          "pages": "44–52",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t1-u2-l2",
+          "title": "تحرير النص",
+          "pages": "53–65",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t1-u2-l3",
+          "title": "تنسيق النص",
+          "pages": "66–73",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t1-u2-l4",
+          "title": "تنسيق الفقرة",
+          "pages": "74–82",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g4-t1-u3",
+      "term": 1,
+      "number": 3,
+      "title": "عالمي المتصل",
+      "lessons": [
+        {
+          "id": "g4-t1-u3-l1",
+          "title": "الموقع الإلكتروني",
+          "pages": "88–93",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t1-u3-l2",
+          "title": "البحث في الإنترنت",
+          "pages": "94–99",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t1-u3-l3",
+          "title": "مصادر المعلومات",
+          "pages": "100–106",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t1-u3-l4",
+          "title": "السلامة على الإنترنت",
+          "pages": "107–113",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g4-t1-u4",
+      "term": 1,
+      "number": 4,
+      "title": "العمل مع البرمجة باستخدام سكراتش",
+      "lessons": [
+        {
+          "id": "g4-t1-u4-l1",
+          "title": "أساسيات سكراتش",
+          "pages": "120–129",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t1-u4-l2",
+          "title": "استخدام اللبنات البرمجية",
+          "pages": "130–140",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t1-u4-l3",
+          "title": "التكرارات في سكراتش",
+          "pages": "141–146",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t1-u4-l4",
+          "title": "الرسم بواسطة سكراتش",
+          "pages": "147–156",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g4-t2-u1",
+      "term": 2,
+      "number": 1,
+      "title": "عرضي التقديمي",
+      "lessons": [
+        {
+          "id": "g4-t2-u1-l1",
+          "title": "الشرائح التقديمية",
+          "pages": "176–188",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t2-u1-l2",
+          "title": "إدراج الصور",
+          "pages": "189–197",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t2-u1-l3",
+          "title": "الانتقالات وتأثيرات الحركة",
+          "pages": "198–202",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t2-u1-l4",
+          "title": "إدراج مقاطع فيديو",
+          "pages": "203–212",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g4-t2-u2",
+      "term": 2,
+      "number": 2,
+      "title": "العمل على الأرقام",
+      "lessons": [
+        {
+          "id": "g4-t2-u2-l1",
+          "title": "جدول البيانات",
+          "pages": "218–225",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t2-u2-l2",
+          "title": "إدخال البيانات وإجراء العمليات الحسابية البسيطة",
+          "pages": "226–238",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g4-t2-u3",
+      "term": 2,
+      "number": 3,
+      "title": "استخدام الوسائط المتعددة",
+      "lessons": [
+        {
+          "id": "g4-t2-u3-l1",
+          "title": "إنشاء مقطع صوتي",
+          "pages": "244–249",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t2-u3-l2",
+          "title": "عرض الصور ومقاطع الفيديو",
+          "pages": "250–256",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t2-u3-l3",
+          "title": "إدخال التحسينات على الصورة",
+          "pages": "257–264",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t2-u3-l4",
+          "title": "تطبيق التأثيرات على الصور",
+          "pages": "265–269",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g4-t2-u4",
+      "term": 2,
+      "number": 4,
+      "title": "مقدمة في علم الروبوت",
+      "lessons": [
+        {
+          "id": "g4-t2-u4-l1",
+          "title": "مقدمة في علم الروبوت",
+          "pages": "276–291",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g4-t2-u4-l2",
+          "title": "انعطاف الروبوت",
+          "pages": "292–299",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    }
+  ]
+}

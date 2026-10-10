@@ -1,0 +1,255 @@
+{
+  "subject": "المهارات الرقمية",
+  "grade": "الصف الخامس الابتدائي",
+  "curriculum": "المنهج السعودي",
+  "year": "1448هـ",
+  "note": "الوحدات والدروس مطابقة لكتاب الطالب «المهارات الرقمية» للصف الخامس الابتدائي طبعة 1448هـ، والصور العملية مأخوذة من الكتاب نفسه. راجع المحتوى قبل استخدامه مع الطلاب.",
+  "units": [
+    {
+      "id": "g5-t1-u1",
+      "term": 1,
+      "number": 1,
+      "title": "تعلم الأساسيات",
+      "lessons": [
+        {
+          "id": "g5-t1-u1-l1",
+          "title": "أجهزة الحاسب",
+          "pages": "15–24",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t1-u1-l2",
+          "title": "أجزاء الحاسب",
+          "pages": "25–38",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t1-u1-l3",
+          "title": "الملفات والمجلدات",
+          "pages": "39–54",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g5-t1-u2",
+      "term": 1,
+      "number": 2,
+      "title": "التعامل مع المستندات",
+      "lessons": [
+        {
+          "id": "g5-t1-u2-l1",
+          "title": "الصور والرسومات",
+          "pages": "62–68",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t1-u2-l2",
+          "title": "التنسيق المتقدم",
+          "pages": "69–80",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t1-u2-l3",
+          "title": "إدراج الرسومات التوضيحية",
+          "pages": "81–89",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t1-u2-l4",
+          "title": "التدقيق والطباعة",
+          "pages": "90–96",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g5-t1-u3",
+      "term": 1,
+      "number": 3,
+      "title": "الوسائط المتعددة",
+      "lessons": [
+        {
+          "id": "g5-t1-u3-l1",
+          "title": "استخدام أجهزة الالتقاط وتحرير مقاطع الصوت",
+          "pages": "103–131",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t1-u3-l2",
+          "title": "البحث عن الوسائط المتعددة وإنشاء وتحرير مقاطع الفيديو",
+          "pages": "132–154",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g5-t1-u4",
+      "term": 1,
+      "number": 4,
+      "title": "البرمجة والتفاعل في سكراتش",
+      "lessons": [
+        {
+          "id": "g5-t1-u4-l1",
+          "title": "كيفية تصميم برنامج",
+          "pages": "162–169",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t1-u4-l2",
+          "title": "الكائنات في سكراتش",
+          "pages": "170–181",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t1-u4-l3",
+          "title": "المعاملات الشرطية",
+          "pages": "182–192",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t1-u4-l4",
+          "title": "الحركة في سكراتش",
+          "pages": "193–206",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t1-u4-l5",
+          "title": "رسائل البث",
+          "pages": "207–216",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t1-u4-l6",
+          "title": "الاستشعار",
+          "pages": "217–224",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g5-t2-u1",
+      "term": 2,
+      "number": 1,
+      "title": "أدوات البحث والاتصال ومشاركة الملفات",
+      "lessons": [
+        {
+          "id": "g5-t2-u1-l1",
+          "title": "الإنترنت والشبكة العنكبوتية",
+          "pages": "245–254",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t2-u1-l2",
+          "title": "الإنترنت وأدوات التواصل",
+          "pages": "255–268",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t2-u1-l3",
+          "title": "مشاركة الملفات",
+          "pages": "269–280",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g5-t2-u2",
+      "term": 2,
+      "number": 2,
+      "title": "جداول البيانات",
+      "lessons": [
+        {
+          "id": "g5-t2-u2-l1",
+          "title": "الصفوف والأعمدة",
+          "pages": "287–302",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t2-u2-l2",
+          "title": "العمليات الحسابية",
+          "pages": "303–314",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g5-t2-u3",
+      "term": 2,
+      "number": 3,
+      "title": "وسائل التواصل الاجتماعي",
+      "lessons": [
+        {
+          "id": "g5-t2-u3-l1",
+          "title": "وسائل التواصل الاجتماعي",
+          "pages": "320–325",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t2-u3-l2",
+          "title": "التدوين",
+          "pages": "326–346",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t2-u3-l3",
+          "title": "الملكية الفكرية",
+          "pages": "347–351",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    },
+    {
+      "id": "g5-t2-u4",
+      "term": 2,
+      "number": 4,
+      "title": "برمجة الروبوت",
+      "lessons": [
+        {
+          "id": "g5-t2-u4-l1",
+          "title": "الروبوتات في حياتنا اليومية",
+          "pages": "359–367",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t2-u4-l2",
+          "title": "استخدام التكرارات",
+          "pages": "368–382",
+          "status": "ready",
+          "slides": true
+        },
+        {
+          "id": "g5-t2-u4-l3",
+          "title": "رسم مكعب",
+          "pages": "383–408",
+          "status": "ready",
+          "slides": true
+        }
+      ]
+    }
+  ]
+}
