@@ -137,19 +137,22 @@
           "id": "g5-t2-u1-l1",
           "title": "الإنترنت والشبكة العنكبوتية",
           "pages": "245–254",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t2-u1-l2",
           "title": "الإنترنت وأدوات التواصل",
           "pages": "255–268",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t2-u1-l3",
           "title": "مشاركة الملفات",
           "pages": "269–280",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
@@ -163,13 +166,15 @@
           "id": "g5-t2-u2-l1",
           "title": "الصفوف والأعمدة",
           "pages": "287–302",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t2-u2-l2",
           "title": "العمليات الحسابية",
           "pages": "303–314",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
