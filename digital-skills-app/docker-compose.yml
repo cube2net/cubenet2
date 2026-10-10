@@ -4,8 +4,8 @@ services:
     image: digital-skills-app:latest
     restart: unless-stopped
     ports:
-      # Reachable from the home LAN only (for teachers testing locally)
-      - "3000:3000"
+      # Host port is configurable (APP_PORT in .env); the app listens on 3000 inside the container
+      - "${APP_PORT:-3000}:3000"
     volumes:
       # Lesson content can be edited on the host without rebuilding the image
       - ./content:/app/content:ro
