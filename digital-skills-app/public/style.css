@@ -477,6 +477,17 @@ a.lesson-title:hover { color: var(--brand); }
 }
 .ws-teacher { display: flex; align-items: flex-end; gap: 6px; min-width: 220px; }
 
+/* Lesson video and the book's digital-lesson QR */
+.video-box { display: grid; gap: 18px; }
+.video-frame { position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: #000; }
+.video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.digital-card { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-2); }
+.digital-card h3 { margin: 0 0 6px; font-size: 1.1rem; }
+.digital-card p { margin: 0 0 12px; }
+.digital-qr { width: 150px; height: 150px; padding: 8px; border-radius: 12px; background: #fff; image-rendering: pixelated; }
+.digital-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.small { font-size: 0.88rem; }
+
 /* Lesson slides embedded in the lesson page */
 .deck-embed { position: relative; aspect-ratio: 16 / 10.2; border-radius: 14px; overflow: hidden; background: #0b1418; }
 .deck-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }

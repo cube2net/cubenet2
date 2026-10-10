@@ -160,6 +160,42 @@ function renderWorksheet(lesson, school) {
   ]);
 }
 
+// YouTube id from a full link (watch, youtu.be, embed, shorts) or a bare 11-character id.
+function youtubeId(value) {
+  const m = String(value || '').match(/(?:v=|youtu\.be\/|embed\/|shorts\/|^)([\w-]{11})(?:[?&#/]|$)/);
+  return m ? m[1] : null;
+}
+
+function renderVideo(lesson) {
+  const vid = youtubeId(lesson.video);
+  const search = `https://www.youtube.com/results?search_query=${encodeURIComponent(`عين المهارات الرقمية سادس ابتدائي ${lesson.title}`)}`;
+  return el('div', { class: 'video-box' }, [
+    vid
+      ? el('div', { class: 'video-frame' }, [el('iframe', {
+        src: `https://www.youtube-nocookie.com/embed/${vid}?rel=0`,
+        title: `فيديو شرح ${lesson.title}`,
+        allow: 'accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen',
+        allowfullscreen: true,
+        loading: 'lazy',
+      })])
+      : null,
+    lesson.digital
+      ? el('div', { class: 'digital-card' }, [
+        el('img', { class: 'digital-qr', src: lesson.digital.qr, alt: 'رمز الدرس الرقمي' }),
+        el('div', {}, [
+          el('h3', {}, 'الدرس الرقمي على منصة عين'),
+          el('p', {}, 'هذا هو الرمز المطبوع في كتاب الطالب لهذا الدرس. امسحه بالجوال أو افتح الرابط لمشاهدة الشرح.'),
+          el('div', { class: 'digital-actions' }, [
+            el('a', { class: 'btn btn-primary', href: lesson.digital.url, target: '_blank', rel: 'noopener' }, 'فتح الدرس الرقمي'),
+            el('a', { class: 'btn btn-ghost', href: search, target: '_blank', rel: 'noopener' }, 'بحث في يوتيوب'),
+          ]),
+          vid ? null : el('p', { class: 'muted small' }, 'لعرض فيديو يوتيوب هنا مباشرة، أضف رابطه في الملف content/videos.json.'),
+        ]),
+      ])
+      : null,
+  ]);
+}
+
 function renderQuestion(q, i, showAnswers) {
   const box = el('div', { class: 'question' }, [
     el('p', { class: 'q-text' }, [el('span', { class: 'q-num' }, String(i + 1)), q.q]),
@@ -221,6 +257,9 @@ async function renderLesson() {
     addSection('slides', 'الدرس بالشرائح', el('div', { class: 'deck-embed' }, [
       el('iframe', { src: `${presentUrl(lesson.id)}&embed=1`, title: `شرائح درس ${lesson.title}`, allow: 'fullscreen', loading: 'lazy' }),
     ]), el('a', { class: 'btn btn-small btn-soft no-print', href: presentUrl(lesson.id) }, 'ملء الشاشة'));
+  }
+  if (lesson.digital || lesson.video) {
+    addSection('video', 'شرح الدرس بالفيديو', renderVideo(lesson));
   }
   if (lesson.explanation && lesson.explanation.length) {
     addSection('explain', 'الشرح التفصيلي', el('div', { class: 'prose' }, lesson.explanation.map(renderBlock)));

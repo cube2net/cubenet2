@@ -42,7 +42,14 @@ app.get('/api/lessons/:id', (req, res) => {
   if (!fs.existsSync(file)) {
     return res.status(404).json({ error: 'lesson not found' });
   }
-  res.json(readJson(file));
+  const lesson = readJson(file);
+  // Teacher-chosen YouTube links live in content/videos.json so lesson files stay untouched.
+  const videos = path.join(CONTENT, 'videos.json');
+  if (fs.existsSync(videos)) {
+    const url = readJson(videos)[id];
+    if (typeof url === 'string' && url.trim()) lesson.video = url.trim();
+  }
+  res.json(lesson);
 });
 
 app.get('/health', (req, res) => res.json({ ok: true }));
