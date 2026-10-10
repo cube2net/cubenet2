@@ -252,6 +252,45 @@
     }).join(''));
   }
 
+  // Scratch-style blocks (RTL: text on the right, the C-arm on the right edge).
+  function sblock(xr, y, w, label, color, size = 16) {
+    return `<rect x="${xr - w}" y="${y}" width="${w}" height="40" rx="8" fill="${color}" stroke="rgba(0,0,0,0.15)" stroke-width="1.5"/>`
+      + text(xr - 14, y + 26, label, { size, weight: 600, fill: '#fff', anchor: 'start' });
+  }
+  function hat(xr, y, w, label, color, flag = false) {
+    const xl = xr - w;
+    return `<path d="M${xl} ${y + 18} Q${xl + 34} ${y - 6} ${xl + 74} ${y + 12} H${xr - 8} Q${xr} ${y + 12} ${xr} ${y + 20} V${y + 40} Q${xr} ${y + 48} ${xr - 8} ${y + 48} H${xl + 8} Q${xl} ${y + 48} ${xl} ${y + 40} Z" fill="${color}" stroke="rgba(0,0,0,0.15)" stroke-width="1.5"/>`
+      + text(xr - 14, y + 37, label, { size: 16, weight: 600, fill: '#fff', anchor: 'start' })
+      + (flag ? line(xl + 30, y + 42, xl + 30, y + 20, '#1f8f5c', 3) + poly([[xl + 30, y + 20], [xl + 48, y + 25], [xl + 30, y + 31]], '#4cbf56') : '');
+  }
+  function cblock(xr, y, w, innerH, label, color, size = 16, forever = false) {
+    const xl = xr - w, arm = 22, top = 44, bot = forever ? 18 : 26, yi = y + top, yb = yi + innerH;
+    return `<path d="M${xl} ${y} H${xr} V${yb + bot} H${xl} V${yb} H${xr - arm} V${yi} H${xl} Z" fill="${color}" stroke="rgba(0,0,0,0.15)" stroke-width="1.5" stroke-linejoin="round"/>`
+      + text(xr - 14, y + 28, label, { size, weight: 600, fill: '#fff', anchor: 'start' });
+  }
+  function hexagon(cx, cy, w, h, color, label) {
+    const k = h / 2;
+    return poly([[cx - w / 2, cy], [cx - w / 2 + k, cy - k], [cx + w / 2 - k, cy - k], [cx + w / 2, cy], [cx + w / 2 - k, cy + k], [cx - w / 2 + k, cy + k]], color, 'stroke="rgba(0,0,0,0.15)" stroke-width="1.5"')
+      + (label ? text(cx, cy + 6, label, { size: 16, weight: 600, fill: '#fff' }) : '');
+  }
+  function loopIcon(cx, cy) {
+    return `<path d="M${cx + 14} ${cy - 6} A16 16 0 1 0 ${cx + 12} ${cy + 10}" fill="none" stroke="${C.amber}" stroke-width="4"/>` + head(cx + 6, cy - 16, cx + 16, cy - 4, C.amber);
+  }
+  function sprite(cx, cy, k = 1) {
+    return `<g transform="translate(${cx} ${cy}) scale(${k})">`
+      + poly([[-24, -30], [-14, -54], [-4, -34]], '#ff9f2e') + poly([[24, -30], [14, -54], [4, -34]], '#ff9f2e')
+      + `<ellipse cx="0" cy="-14" rx="30" ry="26" fill="#ffab19"/>`
+      + `<ellipse cx="0" cy="22" rx="20" ry="18" fill="#ffab19"/>`
+      + `<circle cx="-11" cy="-18" r="7" fill="#fff"/><circle cx="11" cy="-18" r="7" fill="#fff"/>`
+      + `<circle cx="-10" cy="-17" r="3.5" fill="${C.ink}"/><circle cx="12" cy="-17" r="3.5" fill="${C.ink}"/>`
+      + `<path d="M-8 -2 Q0 5 8 -2" fill="none" stroke="${C.ink}" stroke-width="2.5" stroke-linecap="round"/></g>`;
+  }
+  function walker(cx, base, opacity = 1) {
+    return `<g opacity="${opacity}"><circle cx="${cx}" cy="${base - 62}" r="11" fill="${C.ink}"/>`
+      + line(cx, base - 50, cx, base - 22, C.ink, 5) + line(cx, base - 22, cx - 12, base, C.ink, 5) + line(cx, base - 22, cx + 10, base, C.ink, 5)
+      + line(cx, base - 44, cx - 14, base - 30, C.ink, 5) + line(cx, base - 44, cx + 12, base - 32, C.ink, 5) + '</g>';
+  }
+
   const Visuals = {
     hero() {
       return svg(640, 400, 'أشكال ثلاثية الأبعاد',
@@ -728,6 +767,404 @@
         + text(x0 + 8 * cell + 38, sy + 6, 'البداية', { size: 15, weight: 700, fill: C.right })
         + text(x0 - 38, ty + 6, 'الهدف', { size: 15, weight: 700, fill: C.rose })
         + text(x0 + 2 * cell + 30, y0 + cell + 36, 'عائق', { size: 14, weight: 700, fill: '#fff' }));
+    },
+
+    // ---------- Shared: code blocks (RTL, the C-arm is on the right) ----------
+
+    'code-blocks'() {
+      return svg(640, 340, 'منصة البرمجة: المقطع البرمجي والكائن',
+        `<rect x="14" y="14" width="300" height="312" rx="18" fill="${C.paper}" stroke="${C.line}" stroke-width="2"/>`
+        + `<rect x="30" y="30" width="268" height="210" rx="10" fill="#e6f3fb"/>`
+        + `<circle cx="250" cy="70" r="18" fill="#ffd36b"/>`
+        + `<path d="M30 200 Q110 170 190 196 T298 190 V240 H30 Z" fill="#9fd68f"/>`
+        + sprite(150, 168, 1.1)
+        + `<path d="M196 140 q20 -18 40 0" fill="none" stroke="${C.amber}" stroke-width="3" stroke-dasharray="4 5"/>`
+        + head(226, 136, 238, 142, C.amber)
+        + text(164, 272, 'المنصة', { size: 18, weight: 700 })
+        + text(164, 298, 'هنا يتحرك الكائن', { size: 14, weight: 500, fill: C.muted })
+        + `<rect x="330" y="14" width="296" height="312" rx="18" fill="${C.paper}" stroke="${C.line}" stroke-width="2"/>`
+        + hat(600, 44, 236, 'عند نقر العلم', '#ffbf00', true)
+        + cblock(600, 92, 236, 96, 'كرّر (10) مرة', '#ffab19')
+        + sblock(578, 142, 192, 'تحرك (10) خطوة', '#4c97ff')
+        + sblock(578, 190, 192, 'استدر (15) درجة', '#4c97ff')
+        + sblock(600, 258, 236, 'قل (مرحبًا!)', '#9966ff')
+        + text(478, 318, 'المقطع البرمجي', { size: 14, weight: 700, fill: C.muted }));
+    },
+
+    'scratch-loops'() {
+      const inner = (x, label) => sblock(x + 62, 140, 124, label, '#4c97ff', 15);
+      return panels('أنواع التكرار في سكراتش', 340, [
+        { title: 'كرّر ( ) مرة', sub: 'عدد محدد من المرات', draw: (x) => cblock(x + 84, 80, 168, 72, 'كرّر (4) مرة', '#ffab19', 15) + inner(x, 'تحرك 10') + badge(x - 70, 52, '4') },
+        { title: 'كرّر باستمرار', sub: 'دون توقف', draw: (x) => cblock(x + 84, 80, 168, 72, 'كرّر باستمرار', '#ffab19', 15, true) + inner(x, 'استدر 15') + loopIcon(x - 66, 52) },
+        { title: 'كرّر حتى', sub: 'حتى يتحقق الشرط', draw: (x) => cblock(x + 84, 80, 168, 72, 'كرّر حتى', '#ffab19', 15)
+          + hexagon(x - 44, 102, 64, 26, '#5cb1d6') + inner(x, 'تحرك 10') },
+      ]);
+    },
+
+    'repeat-until'() {
+      const box = (cx, cy, w, label, fill, stroke) => `<rect x="${cx - w / 2}" y="${cy - 24}" width="${w}" height="48" rx="12" fill="${fill}" stroke="${stroke}" stroke-width="2"/>` + text(cx, cy + 6, label, { size: 17, weight: 700 });
+      return svg(640, 320, 'كرّر حتى: نكرر الخطوة حتى يتحقق الشرط',
+        `<rect x="520" y="12" width="100" height="40" rx="20" fill="${C.right}"/>` + text(570, 38, 'ابدأ', { size: 16, weight: 700, fill: '#fff' })
+        + arrow(570, 52, 570, 92, C.ink)
+        + poly([[570, 94], [628, 160], [570, 226], [512, 160]], '#fdebd3', `stroke="${C.amber}" stroke-width="2"`)
+        + text(570, 156, 'وصلتُ', { size: 15, weight: 700 }) + text(570, 176, 'الباب؟', { size: 15, weight: 700 })
+        + arrow(512, 160, 472, 160, C.ink) + text(492, 148, 'لا', { size: 16, weight: 700, fill: C.rose })
+        + box(396, 160, 150, 'خطوة للأمام', '#e6f0fb', C.blue)
+        + `<path d="M396 136 V74 H548" fill="none" stroke="${C.muted}" stroke-width="2.5" stroke-dasharray="6 5"/>`
+        + head(530, 74, 560, 74, C.muted) + text(470, 64, 'كرّر', { size: 14, weight: 700, fill: C.muted })
+        + arrow(570, 226, 570, 262, C.ink) + text(582, 250, 'نعم', { size: 16, weight: 700, fill: '#1f8f5c', anchor: 'end' })
+        + box(570, 288, 110, 'توقّف', '#e2f4e8', '#1f8f5c')
+        + line(30, 280, 300, 280, C.line, 3)
+        + `<rect x="36" y="106" width="70" height="174" rx="4" fill="#c8a173" stroke="#8a6a45" stroke-width="3"/>`
+        + `<circle cx="92" cy="196" r="5" fill="#8a6a45"/>`
+        + [[170, 1], [220, 0.5], [270, 0.3]].map(([x, o]) => walker(x, 278, o)).join('')
+        + arrow(300, 186, 196, 186, C.amber));
+    },
+
+    operators() {
+      const items = [['+', 'الجمع', '8 + 2 = 10'], ['-', 'الطرح', '8 - 2 = 6'], ['*', 'الضرب', '8 * 2 = 16'],
+        ['/', 'القسمة', '8 / 2 = 4'], ['^', 'الأس', '2 ^ 3 = 8'], ['%', 'النسبة المئوية', '50% = 0.5']];
+      const xs = [434, 232, 30], ys = [14, 180];
+      return svg(640, 344, 'رموز العمليات الحسابية في الحاسب', items.map(([sym, label, ex], i) => {
+        const x = xs[i % 3], y = ys[Math.floor(i / 3)];
+        return `<rect x="${x}" y="${y}" width="176" height="150" rx="18" fill="${C.paper}" stroke="${C.line}" stroke-width="2"/>`
+          + `<rect x="${x + 58}" y="${y + 16}" width="60" height="60" rx="14" fill="${i < 4 ? C.right : C.amber}"/>`
+          + text(x + 88, y + 60, sym, { size: 34, weight: 700, fill: '#fff', ltr: true })
+          + text(x + 88, y + 106, label, { size: 18, weight: 700 })
+          + text(x + 88, y + 132, ex, { size: 15, weight: 500, fill: C.muted, ltr: true });
+      }).join(''));
+    },
+
+    functions() {
+      const rows = [['SUM', 'المجموع', '28'], ['AVERAGE', 'المتوسط', '7'], ['MAX', 'أكبر قيمة', '10'], ['MIN', 'أصغر قيمة', '4']];
+      return svg(640, 320, 'دوال إكسل الأساسية',
+        table(470, 30, [140], 50, [['الدرجة'], ['8'], ['6'], ['10'], ['4']], { header: true, size: 18 })
+        + text(540, 296, 'A1:A4', { size: 15, weight: 600, fill: C.muted, ltr: true })
+        + arrow(462, 150, 430, 150)
+        + rows.map(([fn, label, value], i) => {
+          const y = 22 + i * 72;
+          return `<rect x="20" y="${y}" width="400" height="60" rx="14" fill="${C.paper}" stroke="${C.line}" stroke-width="2"/>`
+            + text(330, y + 38, label, { size: 18, weight: 700 })
+            + text(170, y + 38, `=${fn}(A1:A4)`, { size: 16, weight: 600, fill: C.right, ltr: true })
+            + `<rect x="30" y="${y + 12}" width="56" height="36" rx="10" fill="${C.amber}"/>`
+            + text(58, y + 37, value, { size: 18, weight: 700, fill: '#fff', ltr: true });
+        }).join(''));
+    },
+
+    'variable-box'() {
+      const crate = (cx, value, label) => `<rect x="${cx - 62}" y="110" width="124" height="96" rx="10" fill="#ffe2bf" stroke="#ff8c1a" stroke-width="3"/>`
+        + poly([[cx - 62, 110], [cx - 44, 84], [cx + 44, 84], [cx + 62, 110]], '#ffd29a', 'stroke="#ff8c1a" stroke-width="3" stroke-linejoin="round"')
+        + `<rect x="${cx - 46}" y="94" width="92" height="26" rx="13" fill="#ff8c1a"/>`
+        + text(cx, 113, 'counter', { size: 15, weight: 700, fill: '#fff', ltr: true })
+        + text(cx, 174, value, { size: 40, weight: 700, fill: C.ink, ltr: true })
+        + text(cx, 240, label, { size: 16, weight: 600, fill: C.muted });
+      return svg(640, 290, 'المتغير صندوق له اسم وقيمة',
+        text(320, 40, 'المتغير: مكان في الذاكرة له اسم فريد وقيمة', { size: 19, weight: 700 })
+        + crate(530, '0', 'اجعل counter = 0')
+        + arrow(458, 158, 394, 158) + text(426, 144, '+1', { size: 18, weight: 700, fill: C.amber, ltr: true })
+        + crate(320, '1', 'غيّر بمقدار 1')
+        + arrow(248, 158, 184, 158) + text(216, 144, '+1', { size: 18, weight: 700, fill: C.amber, ltr: true })
+        + crate(110, '2', 'غيّر بمقدار 1')
+        + text(320, 278, 'كل مرة تلمس الدجاجة بيضة يزيد العدّاد 1', { size: 15, weight: 500, fill: C.muted }));
+    },
+
+    'decision-fork'() {
+      const coat = (cx, cy) => `<path d="M${cx - 30} ${cy - 30} L${cx - 12} ${cy - 38} Q${cx} ${cy - 28} ${cx + 12} ${cy - 38} L${cx + 30} ${cy - 30} L${cx + 36} ${cy + 6} L${cx + 24} ${cy + 8} L${cx + 24} ${cy + 36} L${cx - 24} ${cy + 36} L${cx - 24} ${cy + 8} L${cx - 36} ${cy + 6} Z" fill="${C.blue}"/>`
+        + line(cx, cy - 30, cx, cy + 36, '#1d5f96', 2) + [cy - 14, cy, cy + 14].map((y) => `<circle cx="${cx + 6}" cy="${y}" r="3" fill="#fff"/>`).join('');
+      const sun = (cx, cy) => [0, 45, 90, 135, 180, 225, 270, 315].map((d) => { const a = d * Math.PI / 180; return line(cx + 28 * Math.cos(a), cy + 28 * Math.sin(a), cx + 38 * Math.cos(a), cy + 38 * Math.sin(a), C.amber, 4); }).join('')
+        + `<circle cx="${cx}" cy="${cy}" r="21" fill="#ffd36b"/>`;
+      return svg(640, 320, 'اتخاذ القرار: إذا… وإلا',
+        poly([[320, 20], [450, 84], [320, 148], [190, 84]], '#fdebd3', `stroke="${C.amber}" stroke-width="2"`)
+        + text(320, 78, 'إذا كان', { size: 16, weight: 700 }) + text(320, 102, 'الجو باردًا؟', { size: 16, weight: 700 })
+        + line(450, 84, 520, 84, C.ink, 3) + arrow(520, 84, 520, 150, C.ink) + text(486, 72, 'نعم', { size: 16, weight: 700, fill: '#1f8f5c' })
+        + line(190, 84, 120, 84, C.ink, 3) + arrow(120, 84, 120, 150, C.ink) + text(156, 72, 'وإلا', { size: 16, weight: 700, fill: C.rose })
+        + `<rect x="420" y="152" width="200" height="150" rx="18" fill="#e6f0fb" stroke="${C.blue}" stroke-width="2"/>`
+        + coat(520, 214) + text(520, 286, 'أرتدي معطفًا', { size: 17, weight: 700 })
+        + `<rect x="20" y="152" width="200" height="150" rx="18" fill="#fff6e6" stroke="${C.amber}" stroke-width="2"/>`
+        + sun(120, 212) + text(120, 286, 'لا أحتاج معطفًا', { size: 17, weight: 700 }));
+    },
+
+    'if-else'() {
+      return svg(640, 320, 'لبنة إذا… وإلا',
+        `<path d="M372 20 H620 V280 H372 V236 H602 V176 H372 V130 H602 V70 H372 Z" fill="#ffab19" stroke="#cf8b17" stroke-width="2" stroke-linejoin="round"/>`
+        + text(596, 52, 'إذا', { size: 18, weight: 700, fill: '#fff', anchor: 'start' })
+        + hexagon(468, 45, 150, 30, '#59c059', 'الشرط')
+        + text(596, 160, 'وإلا', { size: 18, weight: 700, fill: '#fff', anchor: 'start' })
+        + sblock(602, 80, 200, 'نفّذ هذه اللبنات', '#4c97ff', 15)
+        + sblock(602, 186, 200, 'أو نفّذ هذه', '#4c97ff', 15)
+        + arrow(360, 100, 260, 100, '#1f8f5c')
+        + `<rect x="24" y="68" width="226" height="64" rx="14" fill="#e2f4e8" stroke="#1f8f5c" stroke-width="2"/>`
+        + text(137, 98, 'الشرط صحيح', { size: 17, weight: 700, fill: '#1f8f5c' }) + text(137, 120, 'يُنفَّذ جزء «إذا»', { size: 14, weight: 500, fill: C.muted })
+        + arrow(360, 206, 260, 206, C.rose)
+        + `<rect x="24" y="174" width="226" height="64" rx="14" fill="#fdeceb" stroke="${C.rose}" stroke-width="2"/>`
+        + text(137, 204, 'الشرط خطأ', { size: 17, weight: 700, fill: C.rose }) + text(137, 226, 'يُنفَّذ جزء «وإلا»', { size: 14, weight: 500, fill: C.muted }));
+    },
+
+    'xy-grid'() {
+      const ox = 320, oy = 180, u = 40;
+      let g = '';
+      for (let i = -6; i <= 6; i++) g += line(ox + i * u, 24, ox + i * u, 336, '#e3ebe8', 1.5);
+      for (let j = -3; j <= 3; j++) g += line(80, oy + j * u * 1.25, 560, oy + j * u * 1.25, '#e3ebe8', 1.5);
+      const px = ox + 3 * u, py = oy - 2 * u * 1.25;
+      for (let i = -5; i <= 5; i++) if (i) g += text(ox + i * u, oy + 22, String(i), { size: 13, weight: 500, fill: C.muted, ltr: true });
+      for (const j of [-2, -1, 1, 2]) g += text(ox - 14, oy - j * u * 1.25 + 5, String(j), { size: 13, weight: 500, fill: C.muted, ltr: true });
+      return svg(640, 350, 'المستوى الإحداثي: المحور السيني والمحور الصادي',
+        g + arrow(80, oy, 572, oy, C.ink, true) + arrow(ox, 340, ox, 18, C.ink, true)
+        + text(600, oy + 6, 'x', { size: 20, weight: 700, fill: C.blue, ltr: true })
+        + text(ox + 22, 30, 'y', { size: 20, weight: 700, fill: C.rose, ltr: true })
+        + line(px, py, px, oy, C.blue, 2.5, 'stroke-dasharray="6 5"') + line(px, py, ox, py, C.rose, 2.5, 'stroke-dasharray="6 5"')
+        + `<circle cx="${px}" cy="${py}" r="9" fill="${C.amber}" stroke="#fff" stroke-width="3"/>`
+        + `<rect x="${px + 14}" y="${py - 40}" width="92" height="32" rx="16" fill="${C.amber}"/>`
+        + text(px + 60, py - 18, '(3, 2)', { size: 16, weight: 700, fill: '#fff', ltr: true })
+        + `<circle cx="${ox}" cy="${oy}" r="6" fill="${C.ink}"/>` + text(ox - 32, oy - 12, '(0, 0)', { size: 13, weight: 600, ltr: true }));
+    },
+
+    'xy-stage'() {
+      const x0 = 110, y0 = 30, w = 420, h = 315 * 0.9, cx = x0 + w / 2, cy = y0 + h / 2;
+      const corner = (x, y, label) => `<rect x="${x - 46}" y="${y - 14}" width="92" height="28" rx="14" fill="${C.ink}"/>` + text(x, y + 5, label, { size: 13, weight: 600, fill: '#fff', ltr: true });
+      const sx = cx + 100 * (w / 480), sy = cy - 60 * (h / 360);
+      return svg(640, 340, 'منصة سكراتش: x من -240 إلى 240 وy من -180 إلى 180',
+        `<rect x="${x0}" y="${y0}" width="${w}" height="${h}" rx="6" fill="#f3f9ff" stroke="${C.ink}" stroke-width="3"/>`
+        + arrow(x0 + 4, cy, x0 + w - 4, cy, C.blue, true) + arrow(cx, y0 + h - 4, cx, y0 + 4, C.rose, true)
+        + line(sx, sy, sx, cy, C.blue, 2, 'stroke-dasharray="5 5"') + line(sx, sy, cx, sy, C.rose, 2, 'stroke-dasharray="5 5"')
+        + sprite(sx, sy + 12, 0.8)
+        + `<rect x="${sx + 26}" y="${sy - 44}" width="108" height="28" rx="14" fill="${C.amber}"/>`
+        + text(sx + 80, sy - 25, 'x: 100  y: 60', { size: 13, weight: 700, fill: '#fff', ltr: true })
+        + corner(x0 + w - 30, y0 - 8 + 0, '(240, 180)') + corner(x0 + 30, y0 - 8, '(-240, 180)')
+        + corner(x0 + w - 30, y0 + h + 10, '(240, -180)') + corner(x0 + 30, y0 + h + 10, '(-240, -180)')
+        + text(cx + 30, cy + 22, '(0, 0)', { size: 13, weight: 700, ltr: true })
+        + text(x0 + w + 40, cy + 6, 'x', { size: 20, weight: 700, fill: C.blue, ltr: true })
+        + text(cx + 18, y0 + 30, 'y', { size: 20, weight: 700, fill: C.rose, ltr: true }));
+    },
+
+    'logic-ops'() {
+      const mark = (x, y, ok) => `<circle cx="${x}" cy="${y}" r="15" fill="${ok ? '#1f8f5c' : C.rose}"/>`
+        + (ok ? `<path d="M${x - 7} ${y} l5 5 l9 -10" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`
+          : line(x - 6, y - 6, x + 6, y + 6, '#fff', 3.5) + line(x + 6, y - 6, x - 6, y + 6, '#fff', 3.5));
+      const op = (x, word, a, b, result) => hexagon(x, 70, 168, 46, '#59c059')
+        + (b === null ? text(x + 30, 79, word, { size: 18, weight: 700, fill: '#fff' }) + mark(x - 30, 70, a)
+          : mark(x + 52, 70, a) + text(x, 79, word, { size: 18, weight: 700, fill: '#fff' }) + mark(x - 52, 70, b))
+        + arrow(x, 104, x, 150, C.ink)
+        + `<rect x="${x - 60}" y="154" width="120" height="44" rx="22" fill="${result ? '#e2f4e8' : '#fdeceb'}" stroke="${result ? '#1f8f5c' : C.rose}" stroke-width="2"/>`
+        + text(x, 182, result ? 'صحيح' : 'خطأ', { size: 18, weight: 700, fill: result ? '#1f8f5c' : C.rose });
+      return panels('المعاملات المنطقية: و، أو، ليس', 330, [
+        { title: 'و', sub: 'صحيح إذا تحقق الشرطان', draw: (x) => op(x, 'و', true, true, true) },
+        { title: 'أو', sub: 'صحيح إذا تحقق أحدهما', draw: (x) => op(x, 'أو', true, false, true) },
+        { title: 'ليس', sub: 'تعكس النتيجة', draw: (x) => op(x, 'ليس', true, null, false) },
+      ]);
+    },
+
+    'scratch-game'() {
+      const cloud = (cx, cy, k = 1) => `<g transform="translate(${cx} ${cy}) scale(${k})"><ellipse cx="0" cy="0" rx="34" ry="16" fill="#fff"/><circle cx="-14" cy="-10" r="14" fill="#fff"/><circle cx="10" cy="-14" r="17" fill="#fff"/></g>`;
+      const tower = (x, w, h, fill) => `<rect x="${x}" y="${300 - h}" width="${w}" height="${h}" fill="${fill}"/>`
+        + Array.from({ length: Math.floor(h / 26) }, (_, r) => `<rect x="${x + 8}" y="${300 - h + 10 + r * 26}" width="${w - 16}" height="9" rx="2" fill="#bfe3f5" opacity="0.8"/>`).join('');
+      return svg(640, 330, 'لعبة سكراتش: المركبة والسحب والمباني والنقاط',
+        `<rect x="14" y="14" width="612" height="302" rx="18" fill="#cfeaff"/>`
+        + cloud(470, 80) + cloud(170, 64, 0.8) + cloud(330, 130, 0.6)
+        + tower(60, 60, 120, '#5d6d76') + tower(140, 50, 80, '#7d8b92') + tower(420, 64, 150, '#5d6d76') + tower(500, 52, 96, '#7d8b92')
+        + `<path d="M14 300 H626 V302 Q626 316 612 316 H28 Q14 316 14 302 Z" fill="#7cc06c"/>`
+        + `<g transform="translate(290 170)"><path d="M-46 0 Q-30 -22 20 -14 L46 0 L20 14 Q-30 22 -46 0 Z" fill="${C.amber}"/>`
+        + `<path d="M-8 -12 L6 -34 L18 -12 Z" fill="${C.rose}"/><path d="M-8 12 L6 34 L18 12 Z" fill="${C.rose}"/>`
+        + `<circle cx="18" cy="-2" r="7" fill="#d6eef8" stroke="#fff" stroke-width="2"/>`
+        + `<path d="M-46 -6 L-66 -12 L-60 0 L-66 12 L-46 6 Z" fill="#ffd36b"/></g>`
+        + arrow(240, 150, 170, 150, C.ink) + text(205, 140, 'تتحرك المباني', { size: 13, weight: 700, fill: C.ink })
+        + `<rect x="476" y="26" width="136" height="38" rx="10" fill="#fff"/>` + text(544, 51, 'النقاط: 5', { size: 16, weight: 700 })
+        + `<rect x="28" y="26" width="100" height="38" rx="10" fill="#fff"/>`
+        + [[52, '↑'], [78, '↓']].map(([x, k]) => `<rect x="${x - 11}" y="34" width="22" height="22" rx="5" fill="${C.ink}"/>` + text(x, 51, k, { size: 14, weight: 700, fill: '#fff' })).join('')
+        + text(108, 51, 'تحكم', { size: 13, weight: 700 }));
+    },
+
+    'animation-frames'() {
+      let frames = '';
+      [0, 1, 2, 3].forEach((i) => {
+        const x = 488 - i * 152;
+        frames += `<rect x="${x}" y="70" width="136" height="110" rx="8" fill="#e6f3fb" stroke="${C.ink}" stroke-width="2"/>`
+          + `<g transform="translate(${x + 104 - i * 24} 116)"><ellipse cx="0" cy="0" rx="24" ry="12" fill="#fff"/><circle cx="-10" cy="-8" r="10" fill="#fff"/><circle cx="8" cy="-10" r="12" fill="#fff"/></g>`
+          + `<rect x="${x + 6}" y="150" width="124" height="24" fill="#9fd68f"/>`
+          + text(x + 68, 222, `الإطار ${i + 1}`, { size: 15, weight: 700 });
+      });
+      return svg(640, 280, 'الرسوم المتحركة: تغيير الموضع في كل إطار',
+        `<rect x="10" y="54" width="620" height="142" rx="10" fill="${C.ink}"/>`
+        + Array.from({ length: 20 }, (_, i) => `<rect x="${22 + i * 31}" y="60" width="14" height="6" rx="2" fill="#fff" opacity="0.6"/><rect x="${22 + i * 31}" y="184" width="14" height="6" rx="2" fill="#fff" opacity="0.6"/>`).join('')
+        + frames
+        + arrow(600, 30, 60, 30, C.amber)
+        + text(330, 22, 'نغيّر الموضع قليلًا في كل تكرار فتبدو السحابة متحركة', { size: 15, weight: 700, fill: C.muted })
+        + text(320, 264, 'تحرك (-5) خطوة  ←  انتظر (0.1) ثانية  ←  كرّر', { size: 16, weight: 600, fill: C.right }));
+    },
+
+    // ---------- Term 2 · Unit 1 · Documents ----------
+
+    'table-styles'() {
+      const mini = (x, o) => table(x - 78, 70, [52, 52, 52], 34, [['اليوم', 'الأولى', 'الثانية'], ['الأحد', 'علوم', 'لغتي'], ['الاثنين', 'رياضيات', 'مهارات'], ['الثلاثاء', 'لغتي', 'علوم']], { size: 12, ...o });
+      return panels('تنسيق الجدول: النمط والتظليل والحدود', 330, [
+        { title: 'بدون تنسيق', sub: 'حدود بسيطة', draw: (x) => mini(x, { stroke: '#9eabb1' }) },
+        { title: 'التظليل', sub: 'تلوين صف العنوان', draw: (x) => mini(x, { header: true, headerFill: '#2e9d57', headerText: '#fff', stroke: '#9eabb1' }) },
+        { title: 'نمط جاهز', sub: 'من تصميم الجدول', draw: (x) => mini(x, { header: true, headerFill: C.right, headerText: '#fff', stroke: '#fff',
+          fills: { '2,0': '#d9efe9', '2,1': '#d9efe9', '2,2': '#d9efe9' } }) },
+      ]);
+    },
+
+    'para-vs-table'() {
+      let lines = '';
+      [0, 1, 2, 3, 4, 5].forEach((i) => { lines += `<rect x="${380 + (i % 2) * 30}" y="${100 + i * 26}" width="${200 - (i % 2) * 30}" height="10" rx="5" fill="${C.line}"/>`; });
+      return svg(640, 330, 'الفقرة مقابل الجدول',
+        `<rect x="344" y="14" width="282" height="302" rx="20" fill="${C.paper}" stroke="${C.line}" stroke-width="2"/>`
+        + text(485, 56, 'فقرة', { size: 22, weight: 700 }) + text(485, 82, 'يصعب البحث فيها', { size: 15, weight: 500, fill: C.muted }) + lines
+        + text(485, 290, 'الأحد علوم ثم لغتي، والاثنين…', { size: 14, weight: 500, fill: C.muted })
+        + `<rect x="14" y="14" width="282" height="302" rx="20" fill="${C.paper}" stroke="${C.line}" stroke-width="2"/>`
+        + text(155, 56, 'جدول', { size: 22, weight: 700 }) + text(155, 82, 'منظم وسهل القراءة', { size: 15, weight: 500, fill: C.muted })
+        + table(40, 104, [76, 76, 78], 40, [['اليوم', 'الأولى', 'الثانية'], ['الأحد', 'علوم', 'لغتي'], ['الاثنين', 'رياضيات', 'مهارات'], ['الثلاثاء', 'لغتي', 'علوم']], { header: true, headerFill: C.right, headerText: '#fff', size: 14 })
+        + arrow(336, 165, 304, 165));
+    },
+
+    'doc-layout'() {
+      let cols = '';
+      for (let i = 0; i < 7; i++) {
+        cols += `<rect x="${236}" y="${120 + i * 20}" width="${i === 0 ? 100 : 118}" height="8" rx="4" fill="${C.line}"/>`;
+        cols += `<rect x="${96}" y="${120 + i * 20}" width="118" height="8" rx="4" fill="${C.line}"/>`;
+      }
+      const legend = (y, n, label, sub) => badge(612, y, n) + text(586, y + 6, label, { size: 17, weight: 700, anchor: 'start' }) + text(586, y + 28, sub, { size: 13, weight: 500, fill: C.muted, anchor: 'start' });
+      return svg(640, 360, 'تخطيط المستند: الرأس والأعمدة والمسافة البادئة والتذييل',
+        `<rect x="76" y="14" width="300" height="332" rx="6" fill="${C.paper}" stroke="${C.ink}" stroke-width="2.5"/>`
+        + `<rect x="88" y="26" width="276" height="36" rx="4" fill="${C.right}"/>` + text(226, 50, 'مشروع قطار الرياض', { size: 14, weight: 700, fill: '#fff' })
+        + `<rect x="150" y="80" width="150" height="14" rx="4" fill="${C.ink}" opacity="0.8"/>`
+        + cols + line(226, 116, 226, 256, C.amber, 2, 'stroke-dasharray="4 4"')
+        + arrow(356, 124, 340, 124, C.blue)
+        + `<rect x="88" y="300" width="276" height="34" rx="4" fill="${C.soft}"/>` + `<circle cx="226" cy="317" r="11" fill="${C.right}"/>` + text(226, 322, '1', { size: 13, weight: 700, fill: '#fff', ltr: true })
+        + badge(70, 44, '1') + badge(70, 186, '2') + badge(372, 108, '3') + badge(70, 317, '4')
+        + legend(60, '1', 'الرأس', 'يتكرر أعلى كل صفحة') + legend(140, '2', 'الأعمدة', 'تخطيط ← أعمدة')
+        + legend(220, '3', 'المسافة البادئة', 'بين النص والهامش') + legend(300, '4', 'التذييل ورقم الصفحة', 'أسفل كل صفحة'));
+    },
+
+    'doc-cover'() {
+      const page = (x, body) => `<rect x="${x}" y="24" width="190" height="262" rx="6" fill="${C.paper}" stroke="${C.ink}" stroke-width="2.5"/>` + body;
+      let text1 = '';
+      for (let i = 0; i < 8; i++) text1 += `<rect x="${86 + (i % 3 === 0 ? 30 : 0)}" y="${70 + i * 24}" width="${150 - (i % 3 === 0 ? 30 : 0)}" height="9" rx="4" fill="${C.line}"/>`;
+      return svg(640, 330, 'صفحة الغلاف وفاصل الصفحات',
+        page(410, `<rect x="410" y="24" width="190" height="120" rx="6" fill="${C.right}"/>`
+          + text(505, 196, 'مشروع قطار', { size: 22, weight: 700, fill: C.blue }) + text(505, 226, 'الرياض', { size: 22, weight: 700, fill: C.blue })
+          + text(505, 256, 'العنوان الفرعي', { size: 13, weight: 500, fill: C.muted }))
+        + text(505, 314, 'صفحة الغلاف', { size: 18, weight: 700 })
+        + page(66, `<rect x="110" y="40" width="100" height="14" rx="4" fill="${C.ink}" opacity="0.8"/>` + text1)
+        + text(161, 314, 'الصفحة التالية', { size: 18, weight: 700 })
+        + line(300, 50, 300, 270, C.amber, 3, 'stroke-dasharray="8 7"')
+        + `<rect x="246" y="134" width="108" height="42" rx="21" fill="${C.amber}"/>` + text(300, 161, 'فاصل صفحات', { size: 14, weight: 700, fill: '#fff' })
+        + text(300, 296, 'Ctrl + Enter', { size: 13, weight: 700, fill: C.muted, ltr: true }));
+    },
+
+    'doc-before-after'() {
+      let plain = '', cols = '';
+      for (let i = 0; i < 10; i++) plain += `<rect x="410" y="${48 + i * 22}" width="${i % 4 === 3 ? 120 : 176}" height="8" rx="4" fill="${C.line}"/>`;
+      for (let i = 0; i < 6; i++) { cols += `<rect x="40" y="${150 + i * 20}" width="80" height="8" rx="4" fill="${C.line}"/><rect x="136" y="${150 + i * 20}" width="80" height="8" rx="4" fill="${C.line}"/>`; }
+      return svg(640, 330, 'المستند قبل التنسيق وبعده',
+        `<rect x="396" y="24" width="210" height="262" rx="6" fill="${C.paper}" stroke="${C.ink}" stroke-width="2.5"/>` + plain
+        + text(501, 316, 'قبل التنسيق', { size: 18, weight: 700, fill: C.muted })
+        + arrow(384, 155, 254, 155)
+        + `<rect x="24" y="24" width="210" height="262" rx="6" fill="${C.paper}" stroke="${C.ink}" stroke-width="2.5"/>`
+        + `<rect x="34" y="34" width="190" height="24" rx="3" fill="${C.right}"/>`
+        + `<rect x="60" y="72" width="138" height="16" rx="4" fill="${C.blue}"/>`
+        + `<rect x="40" y="100" width="176" height="40" rx="4" fill="${C.soft}"/>` + poly([[60, 136], [90, 112], [120, 136]], C.top)
+        + cols + line(128, 146, 128, 256, C.amber, 2, 'stroke-dasharray="4 4"')
+        + `<rect x="34" y="264" width="190" height="14" rx="3" fill="${C.soft}"/>`
+        + text(129, 316, 'بعد التنسيق', { size: 18, weight: 700, fill: C.right }));
+    },
+
+    // ---------- Term 2 · Unit 2 · Websites ----------
+
+    'library-web'() {
+      const shelf = (cx, cy) => `<rect x="${cx - 30}" y="${cy - 28}" width="60" height="56" rx="4" fill="none" stroke="#8a6a45" stroke-width="3"/>`
+        + line(cx - 30, cy, cx + 30, cy, '#8a6a45', 3)
+        + [[-24, C.rose], [-14, C.blue], [-4, C.amber], [8, C.left], [18, C.rose]].map(([dx, f]) => `<rect x="${cx + dx}" y="${cy - 24}" width="8" height="22" fill="${f}"/>`).join('')
+        + [[-22, C.left], [-10, C.amber], [2, C.blue], [14, C.right]].map(([dx, f]) => `<rect x="${cx + dx}" y="${cy + 4}" width="9" height="22" fill="${f}"/>`).join('');
+      const book = (cx, cy) => `<path d="M${cx} ${cy - 18} Q${cx - 16} ${cy - 26} ${cx - 32} ${cy - 20} V${cy + 20} Q${cx - 16} ${cy + 14} ${cx} ${cy + 22} Q${cx + 16} ${cy + 14} ${cx + 32} ${cy + 20} V${cy - 20} Q${cx + 16} ${cy - 26} ${cx} ${cy - 18} Z" fill="#fdebd3" stroke="${C.amber}" stroke-width="3"/>` + line(cx, cy - 18, cx, cy + 22, C.amber, 2);
+      const sheet = (cx, cy) => `<rect x="${cx - 22}" y="${cy - 28}" width="44" height="56" rx="4" fill="${C.paper}" stroke="${C.ink}" stroke-width="2.5"/>` + [0, 1, 2, 3].map((i) => line(cx - 12, cy - 14 + i * 10, cx + 12, cy - 14 + i * 10, C.line, 3)).join('');
+      const row = (y, a, iconA, b, iconB) => `<rect x="364" y="${y}" width="262" height="84" rx="16" fill="#fff6e6" stroke="${C.amber}" stroke-width="2"/>`
+        + iconA(580, y + 42) + text(470, y + 50, a, { size: 18, weight: 700 })
+        + arrow(356, y + 42, 286, y + 42, C.ink, true)
+        + `<rect x="14" y="${y}" width="262" height="84" rx="16" fill="#e6f0fb" stroke="${C.blue}" stroke-width="2"/>`
+        + iconB(60, y + 42) + text(166, y + 50, b, { size: 18, weight: 700 });
+      return svg(640, 300, 'المكتبة والشبكة الإلكترونية',
+        row(10, 'المكتبة', shelf, 'الشبكة الإلكترونية', (x, y) => globe(x, y))
+        + row(106, 'الكتاب', book, 'الموقع الإلكتروني', (x, y) => monitorPage(x, y + 4))
+        + row(202, 'الورقة', sheet, 'الصفحة الإلكترونية', sheet));
+    },
+
+    // ---------- Term 2 · Unit 3 · Kodu ----------
+
+    'kodu-tools'() {
+      const hill = (cx, cy) => `<path d="M${cx - 44} ${cy + 22} Q${cx} ${cy - 50} ${cx + 44} ${cy + 22} Z" fill="#7cc06c"/>` + arrow(cx, cy + 8, cx, cy - 36, C.ink, true);
+      const water = (cx, cy) => `<path d="M${cx - 40} ${cy + 10} q10 -10 20 0 t20 0 t20 0 t20 0 V${cy + 26} H${cx - 40} Z" fill="${C.blue}"/>`
+        + `<path d="M${cx - 40} ${cy - 6} q10 -10 20 0 t20 0 t20 0 t20 0" fill="none" stroke="${C.blue}" stroke-width="4" opacity="0.6"/>`;
+      const hand = (cx, cy) => `<rect x="${cx - 26}" y="${cy - 20}" width="52" height="38" rx="8" fill="${C.ink}"/><circle cx="${cx}" cy="${cy - 1}" r="12" fill="#9eabb1" stroke="#fff" stroke-width="3"/><rect x="${cx + 10}" y="${cy - 28}" width="12" height="8" rx="2" fill="${C.ink}"/>`;
+      const items = [['إضافة كائن', 'Object tool', (x, y) => rover(x, y + 16, 0.9)], ['رفع وخفض', 'Up/Down', hill], ['الماء', 'Water', water], ['الكاميرا', 'Move camera', hand]];
+      const xs = [482, 330, 178, 26];
+      return svg(640, 230, 'أدوات مختبر لعبة كودو', items.map(([label, en, icon], i) => {
+        const x = xs[i];
+        return `<rect x="${x}" y="14" width="132" height="200" rx="18" fill="${C.paper}" stroke="${C.line}" stroke-width="2"/>`
+          + `<rect x="${x + 16}" y="30" width="100" height="96" rx="14" fill="#e6f5e6"/>` + icon(x + 66, 78)
+          + text(x + 66, 160, label, { size: 17, weight: 700 }) + text(x + 66, 186, en, { size: 13, weight: 600, fill: C.muted, ltr: true });
+      }).join(''));
+    },
+
+    // ---------- Term 2 · Unit 4 · Robots ----------
+
+    'sensor-cards'() {
+      const ultra = (cx, cy) => `<rect x="${cx - 34}" y="${cy - 18}" width="68" height="36" rx="10" fill="${C.ink}"/><circle cx="${cx - 15}" cy="${cy}" r="11" fill="#d64545"/><circle cx="${cx + 15}" cy="${cy}" r="11" fill="#d64545"/><circle cx="${cx - 15}" cy="${cy}" r="5" fill="${C.ink}"/><circle cx="${cx + 15}" cy="${cy}" r="5" fill="${C.ink}"/>`;
+      const colour = (cx, cy) => `<rect x="${cx - 24}" y="${cy - 26}" width="48" height="40" rx="8" fill="${C.ink}"/><circle cx="${cx}" cy="${cy - 6}" r="10" fill="#d64545"/>`
+        + poly([[cx - 8, cy + 14], [cx + 8, cy + 14], [cx + 24, cy + 34], [cx - 24, cy + 34]], '#ffe08a', 'opacity="0.9"') + `<rect x="${cx - 30}" y="${cy + 34}" width="60" height="6" fill="${C.rose}"/>`;
+      const gyro = (cx, cy) => `<circle cx="${cx}" cy="${cy}" r="26" fill="none" stroke="${C.blue}" stroke-width="4"/>` + head(cx + 18, cy - 22, cx + 26, cy - 8, C.blue)
+        + `<rect x="${cx - 9}" y="${cy - 9}" width="18" height="18" rx="4" fill="${C.ink}"/>`;
+      const touch = (cx, cy) => `<rect x="${cx - 26}" y="${cy - 6}" width="52" height="32" rx="6" fill="${C.ink}"/><rect x="${cx - 12}" y="${cy - 22}" width="24" height="18" rx="4" fill="#d64545"/>` + arrow(cx, cy - 50, cx, cy - 26, C.amber);
+      const items = [['الموجات فوق الصوتية', 'تقيس المسافة وتكتشف العوائق', ultra], ['الألوان', 'تكتشف اللون وشدة الضوء', colour], ['الجيروسكوب', 'يقيس الزاوية والاتجاه', gyro], ['اللمس', 'يستجيب للضغط والارتطام', touch]];
+      return svg(640, 300, 'مستشعرات روبوت EV3', items.map(([label, sub, icon], i) => {
+        const x = i % 2 === 0 ? 326 : 14, y = i < 2 ? 14 : 156;
+        return `<rect x="${x}" y="${y}" width="300" height="130" rx="18" fill="${C.paper}" stroke="${C.line}" stroke-width="2"/>`
+          + `<circle cx="${x + 244}" cy="${y + 65}" r="46" fill="${C.soft}"/>` + icon(x + 244, y + 65)
+          + text(x + 106, y + 58, label, { size: 18, weight: 700 }) + text(x + 106, y + 86, sub, { size: 13, weight: 500, fill: C.muted });
+      }).join(''));
+    },
+
+    ultrasonic() {
+      let waves = '', echo = '';
+      for (let i = 0; i < 4; i++) {
+        waves += `<path d="M${400 - i * 60} 96 Q${386 - i * 60} 130 ${400 - i * 60} 164" fill="none" stroke="${C.blue}" stroke-width="4" opacity="${1 - i * 0.18}"/>`;
+        echo += `<path d="M${150 + i * 60} 176 Q${164 + i * 60} 206 ${150 + i * 60} 236" fill="none" stroke="${C.amber}" stroke-width="3" stroke-dasharray="5 5" opacity="${1 - i * 0.18}"/>`;
+      }
+      return svg(640, 320, 'مستشعر الموجات فوق الصوتية: إرسال الموجة واستقبال الصدى',
+        `<rect x="40" y="40" width="36" height="230" fill="#b9c4c9"/>` + [80, 120, 160, 200, 240].map((y) => line(40, y, 76, y, '#9eabb1', 2)).join('')
+        + text(58, 296, 'العائق', { size: 16, weight: 700 })
+        + `<rect x="440" y="96" width="150" height="140" rx="18" fill="${C.ink}"/>`
+        + `<circle cx="480" cy="166" r="30" fill="#d64545"/><circle cx="550" cy="166" r="30" fill="#d64545"/>`
+        + `<circle cx="480" cy="166" r="13" fill="${C.ink}"/><circle cx="550" cy="166" r="13" fill="${C.ink}"/>`
+        + waves + echo
+        + text(280, 76, 'الموجة تنطلق', { size: 16, weight: 700, fill: C.blue })
+        + text(280, 268, 'الصدى يرتد', { size: 16, weight: 700, fill: C.amber })
+        + arrow(84, 300 - 4, 432, 300 - 4, C.ink, true)
+        + `<rect x="200" y="284" width="140" height="30" rx="15" fill="${C.paper}"/>` + text(270, 305, 'المسافة = 15 سم', { size: 15, weight: 700 })
+        + text(515, 268, 'المستشعر', { size: 16, weight: 700 }));
+    },
+
+    'debug-cycle'() {
+      const pts = [[470, 70], [520, 220], [170, 220], [120, 70]];
+      const labels = [['١. حدّد الخطأ', 'أين المشكلة؟'], ['٢. فكّر في الحل', 'ما الحلول الممكنة؟'], ['٣. صحّح الخطأ', 'طبّق أفضل حل'], ['٤. أعد الاختبار', 'شغّل البرنامج']];
+      const fills = ['#fdeceb', '#fff6e6', '#e6f0fb', '#e2f4e8'], strokes = [C.rose, C.amber, C.blue, '#1f8f5c'];
+      return svg(640, 300, 'خطوات تصحيح الأخطاء',
+        `<circle cx="320" cy="146" r="60" fill="${C.soft}"/>` + text(320, 140, 'تصحيح', { size: 18, weight: 700, fill: C.right }) + text(320, 164, 'الأخطاء', { size: 18, weight: 700, fill: C.right })
+        + arrow(560, 112, 560, 178, C.muted) + arrow(436, 222, 254, 222, C.muted) + arrow(80, 180, 80, 112, C.muted) + arrow(204, 70, 386, 70, C.muted)
+        + pts.map(([x, y], i) => `<rect x="${x - 80}" y="${y - 38}" width="160" height="76" rx="16" fill="${fills[i]}" stroke="${strokes[i]}" stroke-width="2"/>`
+          + text(x, y - 4, labels[i][0], { size: 17, weight: 700 }) + text(x, y + 22, labels[i][1], { size: 13, weight: 500, fill: C.muted })).join(''));
+    },
+
+    'map-tools'() {
+      return svg(640, 320, 'العوائق والمساحات الملونة في مشهد المحاكاة',
+        `<rect x="334" y="14" width="292" height="292" rx="20" fill="${C.paper}" stroke="${C.line}" stroke-width="2"/>`
+        + text(480, 52, 'عائق', { size: 22, weight: 700 }) + text(480, 78, 'ثلاثي الأبعاد', { size: 15, weight: 500, fill: C.muted })
+        + shadow(480, 196, 66) + cube(480, 150, 58, 'grey')
+        + `<rect x="368" y="232" width="224" height="52" rx="12" fill="#e6f0fb"/>` + text(480, 264, 'يكتشفه مستشعر المسافة', { size: 15, weight: 700, fill: C.blue })
+        + `<rect x="14" y="14" width="292" height="292" rx="20" fill="${C.paper}" stroke="${C.line}" stroke-width="2"/>`
+        + text(160, 52, 'مساحة ملونة', { size: 22, weight: 700 }) + text(160, 78, 'ثنائية الأبعاد', { size: 15, weight: 500, fill: C.muted })
+        + poly([[160, 112], [250, 156], [160, 200], [70, 156]], '#d64545') + poly([[118, 112], [148, 126], [118, 140], [88, 126]], '#ffd36b')
+        + `<rect x="48" y="232" width="224" height="52" rx="12" fill="#fdeceb"/>` + text(160, 264, 'يكتشفها مستشعر الألوان', { size: 15, weight: 700, fill: C.rose }));
     },
 
     uses() {

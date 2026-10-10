@@ -93,21 +93,70 @@ function printWorksheet() {
 }
 window.addEventListener('afterprint', () => document.body.classList.remove('print-worksheet'));
 
-function renderWorksheet(lesson) {
+const LETTERS = ['أ', 'ب', 'ج', 'د'];
+
+// Official-style worksheet: ministry header, student fields, multiple choice, written tasks.
+function renderWorksheet(lesson, school) {
   const ws = lesson.worksheet;
+  const term = (lesson.unit || '').split(' · ')[0];
+  const unit = (lesson.unit || '').split(' · ')[1] || '';
+  const mcqs = (lesson.questions || []).filter((q) => q.type === 'mcq');
+  const total = mcqs.length + ws.tasks.length;
+
+  const emblem = el('div', { class: 'ws-emblem' });
+  const fallback = () => emblem.replaceChildren(el('div', { class: 'ws-mark' }, [
+    el('span', { class: 'ws-mark-icon', 'aria-hidden': 'true' }),
+    el('strong', {}, school.subject || 'المهارات الرقمية'),
+  ]));
+  if (school.logo) {
+    const img = el('img', { src: school.logo, alt: school.ministry || 'وزارة التعليم' });
+    img.addEventListener('error', fallback);
+    emblem.append(img);
+  } else {
+    fallback();
+  }
+
+  const field = (label, cls = '') => el('div', { class: `ws-field ${cls}` }, [el('span', {}, `${label}:`), el('i')]);
+  const section = (n, title, body) => el('section', { class: 'ws-section' }, [
+    el('h3', { class: 'ws-q' }, [el('span', { class: 'ws-q-num' }, n), title]),
+    body,
+  ]);
+
   return el('div', { class: 'worksheet' }, [
-    el('div', { class: 'ws-head' }, [
-      el('span', {}, 'المهارات الرقمية · الصف السادس الابتدائي'),
-      el('strong', {}, ws.title),
+    el('header', { class: 'ws-header' }, [
+      el('div', { class: 'ws-id' }, [school.country, school.ministry, school.region, school.school].filter(Boolean).map((t) => el('p', {}, t))),
+      emblem,
+      el('div', { class: 'ws-meta' }, [
+        el('p', {}, [el('b', {}, 'المادة: '), school.subject || 'المهارات الرقمية']),
+        el('p', {}, [el('b', {}, 'الصف: '), school.grade || 'السادس الابتدائي']),
+        term ? el('p', {}, term) : null,
+        el('p', {}, [el('b', {}, 'العام الدراسي: '), school.year || '1448هـ']),
+      ]),
     ]),
-    ws.name_line
-      ? el('div', { class: 'ws-fields' }, ['الاسم', 'الفصل', 'التاريخ'].map((f) => el('span', {}, [`${f}:`, el('i')])))
-      : null,
-    el('ol', { class: 'tasks' }, ws.tasks.map((task) => el('li', {}, [
+    el('div', { class: 'ws-title' }, [
+      el('span', {}, 'ورقة عمل'),
+      el('strong', {}, lesson.title),
+      unit ? el('small', {}, unit) : null,
+    ]),
+    el('div', { class: 'ws-student' }, [
+      field('اسم الطالب', 'wide'),
+      field('الفصل'),
+      field('التاريخ'),
+      el('div', { class: 'ws-score' }, [el('span', {}, 'الدرجة'), el('i'), el('small', {}, `من ${total}`)]),
+    ]),
+    mcqs.length ? section('السؤال الأول', 'اختر الإجابة الصحيحة بوضع دائرة حول الحرف:', el('ol', { class: 'ws-mcq' }, mcqs.map((q) => el('li', {}, [
+      el('p', {}, q.q),
+      el('div', { class: 'ws-options' }, q.options.map((o, k) => el('span', {}, [el('b', {}, LETTERS[k]), o]))),
+    ])))) : null,
+    section(mcqs.length ? 'السؤال الثاني' : 'السؤال الأول', 'أجب عن الأسئلة الآتية:', el('ol', { class: 'ws-tasks' }, ws.tasks.map((task) => el('li', {}, [
       el('p', {}, task),
       el('div', { class: 'answer-line' }),
       el('div', { class: 'answer-line' }),
-    ]))),
+    ])))),
+    el('footer', { class: 'ws-footer' }, [
+      el('span', {}, 'مع تمنياتي لكم بالتوفيق'),
+      el('span', { class: 'ws-teacher' }, ['معلم المادة: ', school.teacher ? el('b', {}, school.teacher) : el('i')]),
+    ]),
   ]);
 }
 
@@ -145,7 +194,10 @@ async function renderLesson() {
     return;
   }
 
-  const lesson = await getJson(`/api/lessons/${encodeURIComponent(id)}`);
+  const [lesson, school] = await Promise.all([
+    getJson(`/api/lessons/${encodeURIComponent(id)}`),
+    getJson('/api/school').catch(() => ({})),
+  ]);
   document.title = `${lesson.title} · المهارات الرقمية`;
 
   const sections = [];
@@ -165,11 +217,16 @@ async function renderLesson() {
   if (lesson.summary) {
     addSection('summary', 'ملخص الدرس', el('p', { class: 'summary-text' }, lesson.summary));
   }
+  if (lesson.slides && lesson.slides.length) {
+    addSection('slides', 'الدرس بالشرائح', el('div', { class: 'deck-embed' }, [
+      el('iframe', { src: `${presentUrl(lesson.id)}&embed=1`, title: `شرائح درس ${lesson.title}`, allow: 'fullscreen', loading: 'lazy' }),
+    ]), el('a', { class: 'btn btn-small btn-soft no-print', href: presentUrl(lesson.id) }, 'ملء الشاشة'));
+  }
   if (lesson.explanation && lesson.explanation.length) {
-    addSection('explain', 'شرح الدرس', el('div', { class: 'prose' }, lesson.explanation.map(renderBlock)));
+    addSection('explain', 'الشرح التفصيلي', el('div', { class: 'prose' }, lesson.explanation.map(renderBlock)));
   }
   if (lesson.worksheet) {
-    addSection('worksheet', 'ورقة العمل', renderWorksheet(lesson),
+    addSection('worksheet', 'ورقة العمل', renderWorksheet(lesson, school),
       el('button', { class: 'btn btn-small btn-soft no-print', type: 'button', onclick: printWorksheet }, 'طباعة'));
   }
   if (lesson.questions && lesson.questions.length) {

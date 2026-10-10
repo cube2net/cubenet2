@@ -363,27 +363,131 @@ a.lesson-title:hover { color: var(--brand); }
 .prose p { margin: 0 0 12px; }
 .figure { margin: 18px 0 22px; }
 .figure .visual svg { max-height: 420px; }
-.figure img { display: block; max-width: 100%; height: auto; margin: 0 auto; border-radius: 14px; }
+.figure img { display: block; max-width: 100%; max-height: 460px; width: auto; height: auto; margin: 0 auto; border-radius: 14px; }
 .figure figcaption { margin-top: 8px; color: var(--muted); font-size: 0.92rem; text-align: center; }
 
-/* Worksheet */
-.worksheet { border: 1px dashed var(--line); border-radius: 14px; padding: 18px; }
-.ws-head {
+/* Worksheet: printed paper in the ministry's official layout (always light, like paper) */
+.worksheet {
+  --ws-ink: #111c22;
+  --ws-line: #9aa7ad;
+  --ws-brand: #0d6157;
+  --ws-soft: #e8f2ef;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 26px 30px 22px;
+  background: #fff;
+  color: var(--ws-ink);
+  border: 1px solid #d5dedb;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px -18px rgb(20 35 43 / 40%);
+  font-size: 15px;
+}
+.ws-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 3px double var(--ws-brand);
+}
+.ws-header p { margin: 0; line-height: 1.75; }
+.ws-id { font-weight: 700; font-size: 0.95em; }
+.ws-id p:first-child { font-size: 1.04em; }
+.ws-meta { justify-self: end; font-size: 0.9em; }
+.ws-meta b { font-weight: 700; }
+.ws-emblem { display: grid; place-items: center; min-width: 120px; }
+.ws-emblem img { display: block; max-height: 86px; max-width: 150px; }
+.ws-mark { display: grid; justify-items: center; gap: 4px; color: var(--ws-brand); font-size: 0.85em; }
+.ws-mark-icon {
+  width: 46px;
+  height: 46px;
+  background: url("/favicon.svg") center / contain no-repeat;
+}
+.ws-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px 12px;
+  margin: 14px 0 12px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  background: var(--ws-brand);
+  color: #fff;
+  text-align: center;
+}
+.ws-title span { padding: 1px 10px; border-radius: 99px; background: rgb(255 255 255 / 18%); font-size: 0.85em; }
+.ws-title strong { font-size: 1.22em; }
+.ws-title small { flex-basis: 100%; font-size: 0.82em; color: #d4ebe5; }
+.ws-student {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px 18px;
+  padding: 12px 14px;
+  border: 1px solid var(--ws-line);
+  border-radius: 8px;
+}
+.ws-field { display: flex; align-items: flex-end; gap: 6px; flex: 1 1 120px; font-weight: 600; }
+.ws-field.wide { flex: 2 1 240px; }
+.ws-field i, .ws-teacher i { flex: 1; min-width: 60px; height: 1.4em; border-bottom: 1px dotted var(--ws-ink); }
+.ws-score {
+  display: grid;
+  grid-template-rows: auto 34px auto;
+  justify-items: center;
+  width: 78px;
+  border: 1.5px solid var(--ws-ink);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.85em;
+  font-weight: 700;
+}
+.ws-score span { width: 100%; padding: 2px 0; background: var(--ws-soft); text-align: center; }
+.ws-score i { display: block; }
+.ws-score small { width: 100%; padding: 1px 0; border-top: 1px solid var(--ws-line); text-align: center; color: #44535a; }
+.ws-section { margin-top: 18px; }
+.ws-q { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; font-size: 1.02em; }
+.ws-q-num { padding: 3px 12px; border-radius: 6px; background: var(--ws-soft); color: var(--ws-brand); white-space: nowrap; }
+.ws-mcq, .ws-tasks { margin: 0; padding-inline-start: 24px; }
+.ws-mcq { columns: 2 300px; column-gap: 34px; }
+.ws-mcq li, .ws-tasks li { margin-bottom: 12px; padding-inline-start: 4px; }
+.ws-mcq li::marker, .ws-tasks li::marker { font-weight: 700; color: var(--ws-brand); }
+.ws-mcq p, .ws-tasks p { margin: 0 0 6px; font-weight: 600; }
+.ws-options { display: flex; flex-wrap: wrap; gap: 6px 26px; }
+.ws-options span { display: inline-flex; align-items: center; gap: 8px; }
+.ws-options b {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--ws-ink);
+  border-radius: 50%;
+  font-size: 0.85em;
+}
+.answer-line { border-bottom: 1px dotted var(--ws-ink); height: 30px; }
+.ws-footer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 8px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid var(--ink);
-  font-size: 0.95rem;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid var(--ws-line);
+  font-weight: 600;
 }
-.ws-fields { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 14px 0; }
-.ws-fields span { display: inline-flex; align-items: flex-end; gap: 6px; flex: 1; min-width: 140px; }
-.ws-fields i { flex: 1; border-bottom: 1px dotted var(--muted); height: 1.4em; }
-.tasks { margin: 0; padding-inline-start: 22px; }
-.tasks li { margin-bottom: 14px; }
-.tasks p { margin: 0; font-weight: 500; }
-.answer-line { border-bottom: 1px dotted var(--muted); height: 32px; }
+.ws-teacher { display: flex; align-items: flex-end; gap: 6px; min-width: 220px; }
+
+/* Lesson slides embedded in the lesson page */
+.deck-embed { position: relative; aspect-ratio: 16 / 10.2; border-radius: 14px; overflow: hidden; background: #0b1418; }
+.deck-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.figure img { box-shadow: 0 0 0 1px var(--line), 0 10px 24px -16px rgb(20 35 43 / 45%); }
+
+@media (max-width: 640px) {
+  .worksheet { padding: 16px 14px; font-size: 14px; }
+  .ws-header { grid-template-columns: 1fr 1fr; }
+  .ws-emblem { grid-column: 1 / -1; grid-row: 1; }
+  .ws-meta { justify-self: start; }
+}
 
 /* Questions */
 .questions { display: grid; gap: 4px; }
@@ -479,6 +583,8 @@ a.lesson-title:hover { color: var(--brand); }
   html { scroll-behavior: auto; }
 }
 
+@page { size: A4; margin: 12mm; }
+
 @media print {
   body { background: #fff; color: #000; font-size: 14px; }
   .no-print, .topbar, .section-nav, .hero-actions, .note { display: none !important; }
@@ -486,8 +592,17 @@ a.lesson-title:hover { color: var(--brand); }
   .visual { background: #fff; }
   body.print-worksheet #lesson > :not(#worksheet) { display: none !important; }
   body.print-worksheet .section-head { display: none; }
-  .worksheet { border: 0; padding: 0; }
-  .answer-line, .ws-fields i { border-bottom-color: #000; }
+  body.print-worksheet .wrap { max-width: none; padding: 0; }
+  .worksheet { max-width: none; border: 0; border-radius: 0; box-shadow: none; padding: 0; font-size: 12.5px; }
+  .ws-header p { line-height: 1.6; }
+  .ws-title { margin: 10px 0 8px; padding: 6px 12px; }
+  .ws-section { margin-top: 12px; }
+  .ws-mcq li, .ws-tasks li { margin-bottom: 8px; }
+  .answer-line { height: 25px; }
+  .ws-title, .ws-q-num, .ws-score span { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .ws-mcq li, .ws-tasks li { break-inside: avoid; }
+  .ws-footer { break-before: avoid; break-inside: avoid; }
+  .deck-embed { display: none; }
 }
 
 /* Formulas written as `...` in lesson content */

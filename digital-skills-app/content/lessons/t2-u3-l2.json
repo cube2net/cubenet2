@@ -114,21 +114,21 @@
       "type": "mcq",
       "q": "في أي مربع نضع الشرط؟",
       "options": [
-        "WHEN",
         "DO",
-        "Play"
+        "Play",
+        "WHEN"
       ],
-      "answer": 0
+      "answer": 2
     },
     {
       "type": "mcq",
       "q": "كيف نفتح برمجة الكائن؟",
       "options": [
+        "Save my world",
         "زر الفأرة الأيمن على الكائن ← Program",
-        "NEW WORLD",
-        "Save my world"
+        "NEW WORLD"
       ],
-      "answer": 0
+      "answer": 1
     },
     {
       "type": "mcq",
@@ -144,21 +144,21 @@
       "type": "mcq",
       "q": "ما الشرط الذي يتحقق عند لمس التفاحة؟",
       "options": [
-        "bumped apple",
         "keyboard Arrows",
-        "see rock"
+        "see rock",
+        "bumped apple"
       ],
-      "answer": 0
+      "answer": 2
     },
     {
       "type": "mcq",
       "q": "ما الأمر الذي ينقص النقاط؟",
       "options": [
+        "jump",
         "subtract",
-        "score",
-        "jump"
+        "score"
       ],
-      "answer": 0
+      "answer": 1
     },
     {
       "type": "mcq",
@@ -182,8 +182,8 @@
       "kicker": "الوحدة الثالثة · تصميم ألعاب جهاز الحاسب",
       "title": "برمجة ألعاب جهاز الحاسب",
       "subtitle": "المهارات الرقمية · الصف السادس الابتدائي",
-      "image": "/media/t2-u3-l2/p324-1.jpg",
-      "notes": "اسأل: عندما تضغط السهم في لعبة، ماذا يحدث؟ هذه هي «عندما… نفّذ». (دقيقتان)"
+      "notes": "اسأل: عندما تضغط السهم في لعبة، ماذا يحدث؟ هذه هي «عندما… نفّذ». (دقيقتان)",
+      "visual": "when-do"
     },
     {
       "layout": "content",
@@ -195,7 +195,7 @@
         "يبرمج القفز بمفتاح المسافة.",
         "يبرمج نظام النقاط ويختبر اللعبة."
       ],
-      "visual": "when-do",
+      "visual": "kodu-tools",
       "notes": "اقرأ الأهداف مع الطلاب، وأخبرهم أنكم ستعودون إليها في نهاية الحصة. (دقيقة واحدة)"
     },
     {

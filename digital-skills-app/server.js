@@ -21,6 +21,18 @@ app.get('/api/curriculum', (req, res) => {
   res.json(readJson(path.join(CONTENT, 'curriculum.json')));
 });
 
+// School details printed on worksheets (content/school.json, editable without rebuilding).
+app.get('/api/school', (req, res) => {
+  const file = path.join(CONTENT, 'school.json');
+  const school = fs.existsSync(file) ? readJson(file) : {};
+  // Drop the logo when its file has not been added yet, so the page shows the fallback mark.
+  if (school.logo && school.logo.startsWith('/media/')) {
+    const logo = path.join(CONTENT, 'media', path.normalize(school.logo.slice('/media/'.length)));
+    if (!logo.startsWith(path.join(CONTENT, 'media')) || !fs.existsSync(logo)) delete school.logo;
+  }
+  res.json(school);
+});
+
 app.get('/api/lessons/:id', (req, res) => {
   const { id } = req.params;
   if (!ID_PATTERN.test(id)) {

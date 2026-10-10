@@ -83,9 +83,30 @@ docker-compose.yml        التطبيق + نفق Cloudflare
 
 تُستخدم في الشرائح عبر `"visual": "<الاسم>"` وفي الشرح عبر `{ "type": "visual", "name": "<الاسم>", "caption": "..." }`:
 
-`hero` · `flat-vs-solid` · `axes-cube` · `shape-pairs` · `modeling-flow` · `uses` · `design-workspace` · `shape-handles` · `solid-hole` · `tool-tiles` · `spreadsheet` · `operations-order` · `chart-types` · `data-to-chart` · `database-structure` · `data-kinds` · `database-table` · `field-types` · `sort-filter` · `word-table` · `table-edit` · `web-page` · `site-structure` · `site-publish` · `game-elements` · `when-do` · `game-plan` · `robot-sensors` · `decision-flow` · `robot-map`
+`hero` · `flat-vs-solid` · `axes-cube` · `shape-pairs` · `modeling-flow` · `uses` · `design-workspace` · `shape-handles` · `solid-hole` · `tool-tiles` · `spreadsheet` · `operations-order` · `chart-types` · `data-to-chart` · `database-structure` · `data-kinds` · `database-table` · `field-types` · `sort-filter` · `word-table` · `table-edit` · `web-page` · `site-structure` · `site-publish` · `game-elements` · `when-do` · `game-plan` · `robot-sensors` · `decision-flow` · `robot-map` · `code-blocks` · `scratch-loops` · `repeat-until` · `operators` · `functions` · `variable-box` · `decision-fork` · `if-else` · `xy-grid` · `xy-stage` · `logic-ops` · `scratch-game` · `animation-frames` · `table-styles` · `para-vs-table` · `doc-layout` · `doc-cover` · `doc-before-after` · `library-web` · `kodu-tools` · `sensor-cards` · `ultrasonic` · `debug-cycle` · `map-tools`
 
 الرسومات مكتوبة بصيغة SVG في `public/visuals.js`، ويمكن إضافة رسومات جديدة للدروس القادمة بالطريقة نفسها.
+
+## ورقة العمل الرسمية وبيانات المدرسة
+
+ورقة العمل مصممة بترويسة أوراق وزارة التعليم: المملكة العربية السعودية، وزارة التعليم، إدارة التعليم، اسم المدرسة، ثم المادة والصف والفصل والعام الدراسي، وخانات اسم الطالب والفصل والتاريخ والدرجة. تحتوي سؤال اختيار من متعدد وأسئلة مقالية بأسطر للإجابة، وتُطبع على ورق A4 من زر «طباعة».
+
+البيانات في `content/school.json` ويمكن تعديلها دون إعادة بناء الصورة:
+
+```json
+{
+  "region": "الإدارة العامة للتعليم بمنطقة عسير",
+  "school": "المدرسة السعودية الابتدائية",
+  "teacher": "اسم المعلم (اختياري)",
+  "logo": "/media/brand/moe-logo.png"
+}
+```
+
+**الشعار:** ضع ملف شعار الوزارة الرسمي باسم `moe-logo.png` في المجلد `content/media/brand/`، فيظهر في وسط الترويسة. إذا لم يوجد الملف تظهر علامة المادة بدلًا منه.
+
+## الدرس بالشرائح
+
+صفحة كل درس تعرض الشرائح داخلها مباشرة في قسم «الدرس بالشرائح»، ويليها «الشرح التفصيلي». الشرائح المفاهيمية (العنوان، الأهداف، التهيئة، التعريفات) مرسومة برسومات توضيحية مدمجة، وصور الكتاب تظهر فقط في الخطوات العملية داخل التطبيقات، داخل إطار يشبه نافذة البرنامج.
 
 ## التشغيل المحلي للاختبار
 

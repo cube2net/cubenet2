@@ -17,7 +17,13 @@
   const slideVisual = (s) => {
     let art = null;
     if (s.visual) art = visual(s.visual);
-    else if (s.image) art = el('img', { src: s.image, alt: s.alt || '' });
+    // Screenshots from the applications sit in a window frame.
+    else if (s.image) {
+      art = el('div', { class: 'shot' }, [
+        el('div', { class: 'shot-bar', 'aria-hidden': 'true' }, [el('i'), el('i'), el('i')]),
+        el('img', { src: s.image, alt: s.alt || s.title || '' }),
+      ]);
+    }
     return art ? el('div', { class: 'slide-visual' }, [art]) : null;
   };
 
@@ -130,7 +136,15 @@
     storage('ds-notes', show ? '1' : '0');
   }
 
+  // Embedded in the lesson page: no exit/notes, and "full screen" opens the full presenter.
+  const embedded = new URLSearchParams(window.location.search).get('embed') === '1';
+  if (embedded) document.body.classList.add('embed');
+
   function toggleFullscreen() {
+    if (embedded) {
+      window.open(`/present.html?id=${encodeURIComponent(id)}#${index + 1}`, '_blank', 'noopener');
+      return;
+    }
     if (document.fullscreenElement) document.exitFullscreen();
     else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {});
   }
