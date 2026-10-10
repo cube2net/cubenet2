@@ -66,7 +66,12 @@
       ]),
       slideVisual(s),
     ])],
-    visual: (s) => [head(s), body([slideVisual(s), s.caption ? el('p', { class: 'slide-caption' }, s.caption) : null])],
+    visual: (s) => (s.youtube
+      ? [head(s), body([el('div', { class: 'slide-video' }, [el('iframe', {
+        src: `https://www.youtube-nocookie.com/embed/${s.youtube}?rel=0`, title: s.title,
+        allow: 'accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen', allowfullscreen: true,
+      })])])]
+      : [head(s), body([slideVisual(s), s.caption ? el('p', { class: 'slide-caption' }, s.caption) : null])]),
     question: (s) => LAYOUTS.visual(s),
     definition: (s) => [head(s), body([el('p', { class: 'definition' }, s.definition), slideVisual(s)])],
     activity: (s) => [head(s), body([
@@ -197,6 +202,12 @@
     document.title = `عرض: ${lesson.title}`;
     document.getElementById('exit').href = `/lesson.html?id=${encodeURIComponent(lesson.id)}`;
     slides = lesson.slides || [];
+    const vid = (String(lesson.video || '').match(/(?:v=|youtu\.be\/|embed\/|shorts\/|^)([\w-]{11})(?:[?&#/]|$)/) || [])[1];
+    if (vid) {
+      slides = slides.map((s) => (s.kicker === 'الدرس الرقمي'
+        ? { ...s, title: 'فيديو شرح الدرس', youtube: vid, notes: 'شغّل الفيديو مع الطلاب، وأوقفه عند كل خطوة لتطبيقها. (اختياري)' }
+        : s));
+    }
     if (!slides.length) {
       message('لا توجد شرائح لهذا الدرس بعد.');
       return;

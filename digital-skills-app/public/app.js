@@ -46,7 +46,22 @@ function unitCard(unit, i) {
 }
 
 async function renderIndex() {
-  const data = await getJson('/api/curriculum');
+  const grades = await getJson('/api/grades').catch(() => []);
+  const fallback = (grades.find((g) => g.default) || grades[0] || {}).id;
+  const wanted = new URLSearchParams(window.location.search).get('grade') || storage('ds-grade') || fallback;
+  const grade = grades.find((g) => g.id === wanted) || grades.find((g) => g.id === fallback);
+  if (grades.length > 1) {
+    document.getElementById('grade-tabs').replaceChildren(el('div', { class: 'grade-tabs', role: 'tablist', 'aria-label': 'الصفوف' },
+      grades.map((g) => el('button', {
+        class: 'grade-tab', type: 'button', role: 'tab', 'aria-selected': String(g === grade),
+        onclick: () => { storage('ds-grade', g.id); window.location.search = `grade=${g.id}`; },
+      }, [el('small', {}, 'الصف'), g.short || g.title]))));
+  }
+  if (grade) {
+    document.getElementById('grade-title').textContent = grade.title.replace(/^ال/, 'لل');
+    document.getElementById('topbar-grade').textContent = grade.title;
+  }
+  const data = await getJson(`/api/curriculum${grade ? `?grade=${grade.id}` : ''}`);
   const lessons = data.units.flatMap((u) => u.lessons);
 
   document.getElementById('year').textContent = [data.curriculum, data.year].filter(Boolean).join(' · ');
@@ -59,6 +74,10 @@ async function renderIndex() {
   if (hero) document.getElementById('hero-visual').replaceChildren(hero);
   if (data.note) document.getElementById('curriculum-note').replaceChildren(el('p', { class: 'note' }, data.note));
 
+  if (!data.units.length) {
+    document.getElementById('units').replaceChildren(el('p', { class: 'empty' }, 'دروس هذا الصف قيد الإعداد.'));
+    return;
+  }
   const terms = [...new Set(data.units.map((u) => u.term || 1))].sort();
   let current = Number(storage('ds-term'));
   if (!terms.includes(current)) current = terms[0];
@@ -170,6 +189,7 @@ function renderVideo(lesson) {
   const vid = youtubeId(lesson.video);
   const search = `https://www.youtube.com/results?search_query=${encodeURIComponent(`عين المهارات الرقمية سادس ابتدائي ${lesson.title}`)}`;
   return el('div', { class: 'video-box' }, [
+    vid ? null : el('p', { class: 'video-empty' }, 'لم يُحدَّد فيديو يوتيوب لهذا الدرس بعد. استخدم رمز الدرس الرقمي أو البحث في يوتيوب.'),
     vid
       ? el('div', { class: 'video-frame' }, [el('iframe', {
         src: `https://www.youtube-nocookie.com/embed/${vid}?rel=0`,
@@ -183,11 +203,13 @@ function renderVideo(lesson) {
       ? el('div', { class: 'digital-card' }, [
         el('img', { class: 'digital-qr', src: lesson.digital.qr, alt: 'رمز الدرس الرقمي' }),
         el('div', {}, [
-          el('h3', {}, 'الدرس الرقمي على منصة عين'),
+          el('h3', {}, 'الدرس الرقمي في كتاب الطالب'),
           el('p', {}, 'هذا هو الرمز المطبوع في كتاب الطالب لهذا الدرس. امسحه بالجوال أو افتح الرابط لمشاهدة الشرح.'),
           el('div', { class: 'digital-actions' }, [
             el('a', { class: 'btn btn-primary', href: lesson.digital.url, target: '_blank', rel: 'noopener' }, 'فتح الدرس الرقمي'),
-            el('a', { class: 'btn btn-ghost', href: search, target: '_blank', rel: 'noopener' }, 'بحث في يوتيوب'),
+            vid
+              ? el('a', { class: 'btn btn-ghost', href: `https://www.youtube.com/watch?v=${vid}`, target: '_blank', rel: 'noopener' }, 'فتح في يوتيوب')
+              : el('a', { class: 'btn btn-ghost', href: search, target: '_blank', rel: 'noopener' }, 'بحث في يوتيوب'),
           ]),
           vid ? null : el('p', { class: 'muted small' }, 'لعرض فيديو يوتيوب هنا مباشرة، أضف رابطه في الملف content/videos.json.'),
         ]),
@@ -250,19 +272,17 @@ async function renderLesson() {
     ]));
   };
 
-  if (lesson.summary) {
-    addSection('summary', 'ملخص الدرس', el('p', { class: 'summary-text' }, lesson.summary));
-  }
   if (lesson.slides && lesson.slides.length) {
-    addSection('slides', 'الدرس بالشرائح', el('div', { class: 'deck-embed' }, [
+    addSection('slides', 'الشرائح', el('div', { class: 'deck-embed' }, [
       el('iframe', { src: `${presentUrl(lesson.id)}&embed=1`, title: `شرائح درس ${lesson.title}`, allow: 'fullscreen', loading: 'lazy' }),
     ]), el('a', { class: 'btn btn-small btn-soft no-print', href: presentUrl(lesson.id) }, 'ملء الشاشة'));
   }
-  if (lesson.digital || lesson.video) {
-    addSection('video', 'شرح الدرس بالفيديو', renderVideo(lesson));
+  addSection('video', 'فيديو الشرح', renderVideo(lesson));
+  if (lesson.summary) {
+    addSection('summary', 'الملخص', el('p', { class: 'summary-text' }, lesson.summary));
   }
   if (lesson.explanation && lesson.explanation.length) {
-    addSection('explain', 'الشرح التفصيلي', el('div', { class: 'prose' }, lesson.explanation.map(renderBlock)));
+    addSection('explain', 'الشرح', el('div', { class: 'prose' }, lesson.explanation.map(renderBlock)));
   }
   if (lesson.worksheet) {
     addSection('worksheet', 'ورقة العمل', renderWorksheet(lesson, school),
@@ -274,9 +294,21 @@ async function renderLesson() {
     const draw = () => box.replaceChildren(...lesson.questions.map((q, i) => renderQuestion(q, i, toggle.checked)));
     toggle.addEventListener('change', draw);
     draw();
-    addSection('questions', 'أسئلة الطلاب', box,
+    addSection('questions', 'الأسئلة', box,
       el('label', { class: 'switch no-print' }, [toggle, el('span', { class: 'switch-track' }), 'إجابات المعلم']));
   }
+
+  // One section at a time, chosen from the tab bar (and kept in the URL hash).
+  const tabs = nav.length ? el('nav', { class: 'lesson-tabs no-print', role: 'tablist', 'aria-label': 'أقسام الدرس' }) : null;
+  const show = (key) => {
+    if (!nav.some(([k]) => k === key)) key = nav[0][0];
+    sections.forEach((sec) => sec.classList.toggle('is-hidden', sec.id !== key));
+    tabs.replaceChildren(...nav.map(([k, title]) => el('button', {
+      class: 'lesson-tab', type: 'button', role: 'tab', 'aria-selected': String(k === key),
+      onclick: () => { history.replaceState(null, '', `#${k}`); show(k); },
+    }, title)));
+  };
+  if (tabs) show(window.location.hash.slice(1));
 
   const slides = lesson.slides || [];
   const parts = [
@@ -294,9 +326,7 @@ async function renderLesson() {
       ]),
     ]),
     lesson.note ? el('p', { class: 'note' }, lesson.note) : null,
-    nav.length
-      ? el('nav', { class: 'section-nav no-print', 'aria-label': 'أقسام الدرس' }, nav.map(([key, title]) => el('a', { href: `#${key}` }, title)))
-      : null,
+    tabs,
     ...sections,
     sections.length ? null : el('p', { class: 'empty' }, 'محتوى هذا الدرس قيد الإعداد.'),
   ];

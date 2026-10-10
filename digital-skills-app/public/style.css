@@ -306,6 +306,56 @@ a.lesson-title:hover { color: var(--brand); }
 .lesson-hero h1 { font-size: clamp(1.6rem, 3.6vw, 2.3rem); margin: 0 0 16px; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 
+.grade-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 18px; }
+.grade-tab {
+  display: grid;
+  justify-items: center;
+  min-width: 120px;
+  padding: 10px 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.grade-tab small { font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+.grade-tab:hover { border-color: var(--brand); }
+.grade-tab[aria-selected="true"] { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.grade-tab[aria-selected="true"] small { color: #cfe9e2; }
+
+.lesson-tabs {
+  position: sticky;
+  top: 60px;
+  z-index: 5;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  margin: 16px 0;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.lesson-tab {
+  flex: 1 0 auto;
+  padding: 9px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.lesson-tab:hover { color: var(--brand); background: var(--surface-2); }
+.lesson-tab[aria-selected="true"] { background: var(--brand); color: var(--on-brand); }
+.section.is-hidden { display: none; }
+.video-empty { margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
 .section-nav {
   position: sticky;
   top: 60px;
@@ -602,6 +652,7 @@ a.lesson-title:hover { color: var(--brand); }
   .section { box-shadow: none; border: 0; padding: 0; break-inside: avoid-page; }
   .visual { background: #fff; }
   body.print-worksheet #lesson > :not(#worksheet) { display: none !important; }
+  body.print-worksheet #worksheet { display: block !important; }
   body.print-worksheet .section-head { display: none; }
   body.print-worksheet .wrap { max-width: none; padding: 0; }
   .worksheet { max-width: none; border: 0; border-radius: 0; box-shadow: none; padding: 0; font-size: 12.5px; }

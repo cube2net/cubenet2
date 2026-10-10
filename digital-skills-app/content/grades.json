@@ -1,0 +1,21 @@
+[
+  {
+    "id": "4",
+    "title": "الصف الرابع الابتدائي",
+    "short": "الرابع",
+    "curriculum": "grade-4.json"
+  },
+  {
+    "id": "5",
+    "title": "الصف الخامس الابتدائي",
+    "short": "الخامس",
+    "curriculum": "grade-5.json"
+  },
+  {
+    "id": "6",
+    "title": "الصف السادس الابتدائي",
+    "short": "السادس",
+    "curriculum": "curriculum.json",
+    "default": true
+  }
+]

@@ -17,8 +17,18 @@ function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
 
+// Grades and their curriculum files are listed in content/grades.json.
+function grades() {
+  const file = path.join(CONTENT, 'grades.json');
+  return fs.existsSync(file) ? readJson(file) : [{ id: '6', curriculum: 'curriculum.json', default: true }];
+}
+
+app.get('/api/grades', (req, res) => res.json(grades()));
+
 app.get('/api/curriculum', (req, res) => {
-  res.json(readJson(path.join(CONTENT, 'curriculum.json')));
+  const list = grades();
+  const grade = list.find((g) => g.id === String(req.query.grade)) || list.find((g) => g.default) || list[0];
+  res.json({ ...readJson(path.join(CONTENT, path.basename(grade.curriculum))), gradeId: grade.id });
 });
 
 // School details printed on worksheets (content/school.json, editable without rebuilding).
