@@ -74,3 +74,10 @@ function storage(key, value) {
   }
   return null;
 }
+
+// Grade of a lesson from its id: "g4-…" / "g5-…"; grade 6 ids have no prefix.
+const GRADE_NAMES = { 4: 'الرابع', 5: 'الخامس', 6: 'السادس' };
+function gradeOf(id) {
+  const m = /^g(\d)-/.exec(id || '');
+  return m ? Number(m[1]) : 6;
+}

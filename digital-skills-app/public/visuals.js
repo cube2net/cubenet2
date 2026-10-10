@@ -1206,4 +1206,10 @@
   };
 
   window.Visuals = Visuals;
+  // Drawing kit for extra illustration files (public/vis/*.js, served together as /visuals-extra.js).
+  window.VisualKit = {
+    C, TONES, svg, text, poly, line, cube, sphere, pyramid, cylinder, shadow, head, arrow, badge, table, steps, panels,
+    sblock, hat, cblock, hexagon, loopIcon, sprite, walker, printer, bulb, monitor, rotate, gamepad, clapper, building,
+    medical, phone, monitorPage, eye, globe, share, character, rulesList, trophy, rover, apple,
+  };
 })();

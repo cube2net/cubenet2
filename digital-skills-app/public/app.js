@@ -147,7 +147,7 @@ function renderWorksheet(lesson, school) {
       emblem,
       el('div', { class: 'ws-meta' }, [
         el('p', {}, [el('b', {}, 'المادة: '), school.subject || 'المهارات الرقمية']),
-        el('p', {}, [el('b', {}, 'الصف: '), school.grade || 'السادس الابتدائي']),
+        el('p', {}, [el('b', {}, 'الصف: '), `${GRADE_NAMES[gradeOf(lesson.id)]} الابتدائي`]),
         term ? el('p', {}, term) : null,
         el('p', {}, [el('b', {}, 'العام الدراسي: '), school.year || '1448هـ']),
       ]),
@@ -257,6 +257,8 @@ async function renderLesson() {
     getJson('/api/school').catch(() => ({})),
   ]);
   document.title = `${lesson.title} · المهارات الرقمية`;
+  const topbarGrade = document.getElementById('topbar-grade');
+  if (topbarGrade) topbarGrade.textContent = `الصف ${GRADE_NAMES[gradeOf(lesson.id)]} الابتدائي`;
 
   const sections = [];
   const nav = [];
@@ -313,7 +315,7 @@ async function renderLesson() {
   const slides = lesson.slides || [];
   const parts = [
     el('header', { class: 'lesson-hero' }, [
-      el('p', { class: 'crumb' }, [el('a', { href: '/' }, 'الوحدات'), ' / ', lesson.unit]),
+      el('p', { class: 'crumb' }, [el('a', { href: `/?grade=${gradeOf(lesson.id)}` }, `الصف ${GRADE_NAMES[gradeOf(lesson.id)]}`), ' / ', lesson.unit]),
       el('h1', {}, lesson.title),
       el('div', { class: 'hero-actions' }, [
         slides.length

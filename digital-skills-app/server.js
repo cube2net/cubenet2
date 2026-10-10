@@ -10,6 +10,13 @@ const ID_PATTERN = /^[a-z0-9-]+$/i;
 const app = express();
 app.disable('x-powered-by');
 
+// Extra illustration files (public/vis/*.js) are served as one script after visuals.js.
+app.get('/visuals-extra.js', (req, res) => {
+  const dir = path.join(ROOT, 'public', 'vis');
+  const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith('.js')).sort() : [];
+  res.type('application/javascript').send(files.map((f) => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n;\n'));
+});
+
 app.use(express.static(path.join(ROOT, 'public')));
 app.use('/media', express.static(path.join(CONTENT, 'media')));
 

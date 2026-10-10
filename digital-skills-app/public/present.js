@@ -103,7 +103,7 @@
     }, LAYOUTS[layout](s).filter(Boolean));
     if (layout !== 'title') {
       node.append(el('div', { class: 'slide-foot' }, [
-        el('span', {}, 'المهارات الرقمية · الصف السادس'),
+        el('span', {}, `المهارات الرقمية · الصف ${GRADE_NAMES[gradeOf(id)]}`),
         el('span', {}, `${index + 1} / ${slides.length}`),
       ]));
     }
