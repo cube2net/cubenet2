@@ -73,25 +73,29 @@
           "id": "g4-t1-u3-l1",
           "title": "الموقع الإلكتروني",
           "pages": "88–93",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t1-u3-l2",
           "title": "البحث في الإنترنت",
           "pages": "94–99",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t1-u3-l3",
           "title": "مصادر المعلومات",
           "pages": "100–106",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t1-u3-l4",
           "title": "السلامة على الإنترنت",
           "pages": "107–113",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
@@ -105,25 +109,29 @@
           "id": "g4-t1-u4-l1",
           "title": "أساسيات سكراتش",
           "pages": "120–129",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t1-u4-l2",
           "title": "استخدام اللبنات البرمجية",
           "pages": "130–140",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t1-u4-l3",
           "title": "التكرارات في سكراتش",
           "pages": "141–146",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t1-u4-l4",
           "title": "الرسم بواسطة سكراتش",
           "pages": "147–156",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
