@@ -15,19 +15,22 @@
           "id": "g5-t1-u1-l1",
           "title": "أجهزة الحاسب",
           "pages": "15–24",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t1-u1-l2",
           "title": "أجزاء الحاسب",
           "pages": "25–38",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t1-u1-l3",
           "title": "الملفات والمجلدات",
           "pages": "39–54",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
@@ -41,25 +44,29 @@
           "id": "g5-t1-u2-l1",
           "title": "الصور والرسومات",
           "pages": "62–68",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t1-u2-l2",
           "title": "التنسيق المتقدم",
           "pages": "69–80",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t1-u2-l3",
           "title": "إدراج الرسومات التوضيحية",
           "pages": "81–89",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t1-u2-l4",
           "title": "التدقيق والطباعة",
           "pages": "90–96",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
