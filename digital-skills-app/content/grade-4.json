@@ -145,25 +145,29 @@
           "id": "g4-t2-u1-l1",
           "title": "الشرائح التقديمية",
           "pages": "176–188",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t2-u1-l2",
           "title": "إدراج الصور",
           "pages": "189–197",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t2-u1-l3",
           "title": "الانتقالات وتأثيرات الحركة",
           "pages": "198–202",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t2-u1-l4",
           "title": "إدراج مقاطع فيديو",
           "pages": "203–212",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
@@ -177,13 +181,15 @@
           "id": "g4-t2-u2-l1",
           "title": "جدول البيانات",
           "pages": "218–225",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t2-u2-l2",
           "title": "إدخال البيانات وإجراء العمليات الحسابية البسيطة",
           "pages": "226–238",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
