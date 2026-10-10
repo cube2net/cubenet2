@@ -80,13 +80,15 @@
           "id": "g5-t1-u3-l1",
           "title": "استخدام أجهزة الالتقاط وتحرير مقاطع الصوت",
           "pages": "103–131",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t1-u3-l2",
           "title": "البحث عن الوسائط المتعددة وإنشاء وتحرير مقاطع الفيديو",
           "pages": "132–154",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
@@ -100,37 +102,43 @@
           "id": "g5-t1-u4-l1",
           "title": "كيفية تصميم برنامج",
           "pages": "162–169",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t1-u4-l2",
           "title": "الكائنات في سكراتش",
           "pages": "170–181",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t1-u4-l3",
           "title": "المعاملات الشرطية",
           "pages": "182–192",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t1-u4-l4",
           "title": "الحركة في سكراتش",
           "pages": "193–206",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t1-u4-l5",
           "title": "رسائل البث",
           "pages": "207–216",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t1-u4-l6",
           "title": "الاستشعار",
           "pages": "217–224",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
