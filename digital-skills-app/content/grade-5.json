@@ -188,19 +188,22 @@
           "id": "g5-t2-u3-l1",
           "title": "وسائل التواصل الاجتماعي",
           "pages": "320–325",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t2-u3-l2",
           "title": "التدوين",
           "pages": "326–346",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t2-u3-l3",
           "title": "الملكية الفكرية",
           "pages": "347–351",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
@@ -214,19 +217,22 @@
           "id": "g5-t2-u4-l1",
           "title": "الروبوتات في حياتنا اليومية",
           "pages": "359–367",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t2-u4-l2",
           "title": "استخدام التكرارات",
           "pages": "368–382",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g5-t2-u4-l3",
           "title": "رسم مكعب",
           "pages": "383–408",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     }
