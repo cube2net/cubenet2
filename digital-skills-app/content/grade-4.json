@@ -15,19 +15,22 @@
           "id": "g4-t1-u1-l1",
           "title": "الحاسب",
           "pages": "14–19",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t1-u1-l2",
           "title": "سطح المكتب",
           "pages": "20–32",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t1-u1-l3",
           "title": "إعدادات جهاز الحاسب",
           "pages": "33–38",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
@@ -41,25 +44,29 @@
           "id": "g4-t1-u2-l1",
           "title": "لوحة المفاتيح",
           "pages": "44–52",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t1-u2-l2",
           "title": "تحرير النص",
           "pages": "53–65",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t1-u2-l3",
           "title": "تنسيق النص",
           "pages": "66–73",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t1-u2-l4",
           "title": "تنسيق الفقرة",
           "pages": "74–82",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
