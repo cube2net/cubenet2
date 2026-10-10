@@ -189,25 +189,29 @@
           "id": "g4-t2-u3-l1",
           "title": "إنشاء مقطع صوتي",
           "pages": "244–249",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t2-u3-l2",
           "title": "عرض الصور ومقاطع الفيديو",
           "pages": "250–256",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t2-u3-l3",
           "title": "إدخال التحسينات على الصورة",
           "pages": "257–264",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t2-u3-l4",
           "title": "تطبيق التأثيرات على الصور",
           "pages": "265–269",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     },
@@ -221,13 +225,15 @@
           "id": "g4-t2-u4-l1",
           "title": "مقدمة في علم الروبوت",
           "pages": "276–291",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         },
         {
           "id": "g4-t2-u4-l2",
           "title": "انعطاف الروبوت",
           "pages": "292–299",
-          "status": "pending"
+          "status": "ready",
+          "slides": true
         }
       ]
     }
